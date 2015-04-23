@@ -1,0 +1,26 @@
+<head>
+  <title>god-game</title>
+</head>
+
+<body>
+  <h1>Welcome to Meteor!</h1>
+
+  {{> hello}}
+</body>
+
+<template name="hello">
+  <button class="tap">Tap to Spread Praise</button>
+  <br>
+  {{#each resources}}
+    {{name}}: {{getValue}} <br>
+  {{/each}}
+  <!-- <p>Food: {{formatNumber food}}/{{formatLimit foodLimit}} ({{formatTick foodTick}})</p> -->
+</template>
+
+<template name='farms'>
+  {{#if canSee}}
+    <button class="addFarm" {{disabled}}>
+      Farms ({{numberOwned}})
+    </button>
+  {{/if}}
+</template>
