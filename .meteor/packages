@@ -7,7 +7,14 @@
 meteor-platform
 autopublish
 insecure
-coffeescript
+
+#
 reactive-var
-accounts-password
-momentjs:moment
+
+#
+coffeescript
+
+
+#test
+sanjo:jasmine
+velocity:console-reporter
