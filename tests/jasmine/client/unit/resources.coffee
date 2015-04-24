@@ -5,29 +5,36 @@ describe "Resource", ->
 
   describe 'instantiation', ->
     it "option `name` should be set", ->
-      expect(@resource.name).toBe('test')
+      expect(@resource.name).toBe 'test'
 
     it "option `name` should be required", ->
       expect((-> new Resource)).toThrow()
 
     it 'instantiation option `tick` should default to 0', ->
-      expect(@resource.tickValue).toBe(0)
+      expect(@resource.tickValue).toBe 0
 
     it "instantiation option `tick` should be set", ->
       resource = new Resource name: 'test', tick: 1
-      expect(resource.tickValue).toBe(1)
+      expect(resource.tickValue).toBe 1
 
     it 'instantiation option `limit` should default to falsy', ->
       expect(@resource.limit).toBeFalsy()
 
     it "instantiation option `limit` should be set", ->
       resource = new Resource name: 'test', limit: 1
-      expect(resource.limit).toBe(1)
+      expect(resource.limit).toBe 1
+    it "instantiation option `meta` should be set", ->
+      resource = new Resource name: 'test', meta: 1
+      expect(resource.meta).toBe 1
+
+      meta = test: true
+      resource = new Resource name: 'test', meta: meta
+      expect(resource.meta).toBe meta
 
     describe "hide", ->
       it '`resource` should be set', ->
         expect(@resource.hide.get('self')).toBeFalsy()
-
+        
         resource = new Resource name: 'test',  hide: self: true
         expect(resource.hide.get('self')).toBe(true)
 

@@ -13,15 +13,18 @@
     <button disabled="{{resources.food.atLimit}}" class="tap">Tap for food</button>
     <button disabled="{{cannotRefineFoodToWood}}" class="refineFood">Refine Food</button>
     {{> resourceList resources=getResources }}
+    {{> buildings buildings=getBuildings}}
   {{/with}}
 </template>
 
-<template name='farms'>
-  {{#if canSee}}
-    <button class="addFarm" {{disabled}}>
-      Farms ({{numberOwned}})
-    </button>
-  {{/if}}
+<template name='buildings'>
+  {{#each building}}
+    {{#unless hide.get 'self'}}
+      <button class="buy" disabled='{{cannotPay}}'>
+        {{name}} ({{numberOwned}})
+      </button>
+    {{/unless}}
+  {{/each}}
 </template>
 
 

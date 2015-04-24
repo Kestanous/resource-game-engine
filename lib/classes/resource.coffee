@@ -19,7 +19,8 @@ class @Resource
     @inTheRed = settings.inTheRed or -> #noop
 
     _.each(settings.hide, (value, key) => @hide.set key, value ) if settings.hide
-
+    @meta = settings.meta
+    
   getValue: () ->
     @_valueTracker.depend()
     @value

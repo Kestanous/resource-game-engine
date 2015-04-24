@@ -1,6 +1,17 @@
 class @Modifier
-  constructor: (settigns, @state) -> 
-    @count = new ReactiveVar(0)
+  constructor: (settings, @state) -> 
+
+    unless settings and settings.name
+      throw new Meteor.Erorr('Modifier Init', 'no name given!')
+
+    # @_countTracker = new Tracker.Dependency
+    @hide = new ReactiveDict
+
+    # @count = 0
+    @name = settings.name
+    @meta = settings.meta
+
+    _.each(settings.hide, (value, key) => @hide.set key, value ) if settings.hide
 
   buy: -> @count.set(@count.get()+1) if @state.pay(@currentCost())
 

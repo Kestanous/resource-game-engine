@@ -2,17 +2,7 @@
 
 ok so here is the deal.
 
-Game is the engine (game)
-
 Game can have a resource added (resources)
-
-Resources have a single value of any real number (value)
-
-Resource values can increase or decrease by a set amount (updateValue)
-
-Resource values can regularly increase or decrease by a amount (tick)
-
-Resource ticks are the sum of all modifiers (modifier)
 
 Game can have a modifier added (modifier)
 
@@ -35,8 +25,6 @@ Triggers can apply temporary modifiers [Action]
 
 describe "Game", ->
   
-  it "should exist", -> expect(Game).toBeDefined()
-
   beforeEach ->
     @game = new Game
     

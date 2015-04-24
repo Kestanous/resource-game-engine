@@ -1,3 +1,7 @@
+Template.game.onCreated -> GAME.start()
+
+Template.game.onDestroyed -> GAME.stop()  
+
 Template.game.helpers
   game: -> GAME
 
@@ -5,12 +9,12 @@ Template.game.events
   'click .tap': -> GAME.tapForFood()
   'click .refineFood': -> GAME.refineFoodToWood()
 
-Template.farms.helpers
+Template.buildings.helpers
   canSee: -> GAME.buildings.farms.canSee()
   disabled: -> 'disabled' unless GAME.buildings.farms.canBuy()
   numberOwned: -> GAME.buildings.farms.numberOwned()
 
-Template.farms.events
+Template.buildings.events
   'click .addFarm': -> GAME.buildings.farms.buy()
 
 Template.registerHelper 'formatNumber', (value) -> 
