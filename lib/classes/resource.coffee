@@ -1,13 +1,13 @@
 class @Resource
   constructor: (settings, @state) ->
     unless settings and settings.name
-      throw new Meteor.Erorr('Resource Init', 'no Resource name given!')
+      throw new Meteor.Erorr('Resource Init', 'no name given!')
 
 
     @_valueTracker = new Tracker.Dependency
     @_tickTracker = new Tracker.Dependency
     @_limitTracker = new Tracker.Dependency
-    @_hide = new ReactiveVar settings.hide
+    @hide = new ReactiveDict
     @_valuesToAdd = {}
     @_valuesToMultiply = {}
     @tickValue = 0
@@ -17,6 +17,8 @@ class @Resource
     @setValuesToAdd('default', settings.tick) if settings.tick
     @limit = settings.limit
     @inTheRed = settings.inTheRed or -> #noop
+
+    _.each(settings.hide, (value, key) => @hide.set key, value ) if settings.hide
 
   getValue: () ->
     @_valueTracker.depend()
@@ -31,7 +33,6 @@ class @Resource
     @limit
 
   atLimit: () ->  @getLimit() is @getValue()
-
 
   update: (value) -> 
     if value < 0
@@ -84,5 +85,3 @@ class @Resource
   timeUntilValue: (value) -> 
     return Infinity if not value or value > @limit
     (value - @value) / (@tickValue / @state.interval)
-
-  canSee: -> not @_hide.get()

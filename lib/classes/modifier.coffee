@@ -1,6 +1,6 @@
 class @Modifier
-  constructor: (@state, current) -> 
-    @count = new ReactiveVar(current or 0)
+  constructor: (settigns, @state) -> 
+    @count = new ReactiveVar(0)
 
   buy: -> @count.set(@count.get()+1) if @state.pay(@currentCost())
 

@@ -18,3 +18,4 @@ coffeescript
 #test
 sanjo:jasmine
 velocity:html-reporter
+reactive-dict

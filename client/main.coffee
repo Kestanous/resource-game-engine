@@ -1,14 +1,9 @@
-Template.hello.helpers
-  resources: -> GAME.getResources()
+Template.game.helpers
+  game: -> GAME
 
-
-  food: -> GAME.resources.food.getValue()
-  foodTick: -> GAME.resources.food.getTick()
-  foodLimit: -> GAME.resources.food.getLimit()
-  foodMax: -> GAME.resources.food.atLimit()
-
-Template.hello.events
+Template.game.events
   'click .tap': -> GAME.tapForFood()
+  'click .refineFood': -> GAME.refineFoodToWood()
 
 Template.farms.helpers
   canSee: -> GAME.buildings.farms.canSee()

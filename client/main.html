@@ -5,13 +5,15 @@
 <body>
   <h1>Welcome to Meteor!</h1>
 
-  {{> hello}}
+  {{> game}}
 </body>
 
-<template name="hello">
-  <button disabled="{{foodMax}}" class="tap">Tap for food</button>
-  {{> resourceList resources=resources }}
-  <!-- <p>Food: {{formatNumber food}}/{{formatLimit foodLimit}} ({{formatTick foodTick}})</p> -->
+<template name="game">
+  {{#with game}}
+    <button disabled="{{resources.food.atLimit}}" class="tap">Tap for food</button>
+    <button disabled="{{cannotRefineFoodToWood}}" class="refineFood">Refine Food</button>
+    {{> resourceList resources=getResources }}
+  {{/with}}
 </template>
 
 <template name='farms'>
@@ -24,14 +26,22 @@
 
 
 <template name='resourceList'>
-  {{#each resources}}
-    <table class="table resTable">
-      <tr class="resourceRow">
-        <td>{{name}}:</td>
-        <td class="resLimitWarn">{{formatNumber getValue}}</td>
-        <td class="maxRes">/{{formatLimit getLimit}}</td>
-        <td>({{formatTick getTick}})</td>
-      </tr>
-    </table>
-  {{/each}}
+  <table class="table resTable">
+    {{#each resources}}
+      {{#unless hide.get 'self'}}
+        <tr class="resourceRow">
+          <td>{{name}}:</td>
+          {{#unless hide.get 'value'}}
+          <td class="resLimitWarn">{{formatNumber getValue}}</td>
+          {{/unless}}
+          {{#unless hide.get 'limit'}}
+            <td class="maxRes">/{{formatLimit getLimit}}</td>
+          {{/unless}}
+          {{#unless hide.get 'tick'}}
+            <td>({{formatTick getTick}})</td>
+          {{/unless}}
+        </tr>
+      {{/unless}}
+    {{/each}}
+  </table>
 </template>

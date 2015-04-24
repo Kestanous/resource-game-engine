@@ -24,15 +24,36 @@ describe "Resource", ->
       resource = new Resource name: 'test', limit: 1
       expect(resource.limit).toBe(1)
 
-    it "option `hide` should be set", ->
-      expect(@resource._hide.get()).toBeFalsy()
+    describe "hide", ->
+      it '`resource` should be set', ->
+        expect(@resource.hide.get('self')).toBeFalsy()
 
-      resource = new Resource name: 'test',  hide: true
-      expect(resource._hide.get()).toBe(true)
+        resource = new Resource name: 'test',  hide: self: true
+        expect(resource.hide.get('self')).toBe(true)
 
-  it "getValue should return the current value", ->
-    @resource.value = 1
-    expect(@resource.getValue()).toBe(1)
+      it '`value` should be set', ->
+        expect(@resource.hide.get('value')).toBeFalsy()
+
+        resource = new Resource name: 'test',  hide: value: true
+        expect(resource.hide.get('value')).toBe(true)
+
+      it '`limit` should be set', ->
+        expect(@resource.hide.get('limit')).toBeFalsy()
+
+        resource = new Resource name: 'test',  hide: limit: true
+        expect(resource.hide.get('limit')).toBe(true)
+
+      it '`tick` should be set', ->
+        expect(@resource.hide.get('tick')).toBeFalsy()
+
+        resource = new Resource name: 'test',  hide: tick: true
+        expect(resource.hide.get('tick')).toBe(true)
+
+  describe 'value', ->
+
+    it "getValue should return the current value", ->
+      @resource.value = 1
+      expect(@resource.getValue()).toBe(1)
 
   describe 'limit', ->
 
@@ -49,7 +70,7 @@ describe "Resource", ->
       @resource.value = 1
       @resource.limit = 10
       expect(@resource.atLimit()).toBeFalsy()
-      
+
       @resource.value = 10
       @resource.limit = 10
       expect(@resource.atLimit()).toBe(true)
@@ -115,11 +136,4 @@ describe "Resource", ->
 
       @resource.tickValue = 2
       expect(@resource.timeUntilValue(10)).toBe(5)
-
-  it 'canSee should return the opposite of _hide', ->
-    expect(@resource.canSee()).toBe(true)
-    @resource._hide.set true
-    expect(@resource.canSee()).toBe(false)
-    @resource._hide.set false
-    expect(@resource.canSee()).toBe(true)
 
