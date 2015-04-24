@@ -1,9 +1,10 @@
 class @Resource
   constructor: (settings, @state) ->
+    settings ?= {}
     @_valueTracker = new Tracker.Dependency
     @_tickTracker = new Tracker.Dependency
     @_limitTracker = new Tracker.Dependency
-    @_hide = new Tracker.Dependency settings.hide
+    @_hide = new ReactiveVar settings.hide
     @_valuesToAdd = {}
     @_valuesToMultiply = {}
     @tickValue = 0
@@ -53,14 +54,6 @@ class @Resource
   runTick: ->
     @update @tickValue
 
-  updateTickValue: -> 
-    value = _.reduce @_valuesToAdd, ((mem, con) -> if con then mem + con else mem ), 0
-    percent = _.reduce @_valuesToMultiply, ((mem, con) -> if con then mem + con else mem), 0
-    if percent 
-      @tickValue = value * percent 
-    else 
-      @tickValue = value
-    @_tickTracker.changed()
     
   updateLimit: (value) ->
     @limit = value
@@ -68,14 +61,23 @@ class @Resource
 
   setValuesToAdd: (name, value) ->
     @_valuesToAdd[name] = value
-    @updateTickValue()
+    @_updateTickValue()
 
   setValuesToMultiply: (name, value) ->
     @_valuesToMultiply[name] = value
-    @updateTickValue()
+    @_updateTickValue()
+
+  _updateTickValue: -> 
+    value = _.reduce @_valuesToAdd, ((mem, con) -> if con then mem + con else mem ), 0
+    percent = _.reduce @_valuesToMultiply, ((mem, con) -> if con then mem + con else mem), 0
+    if percent 
+      @tickValue = value * percent 
+    else 
+      @tickValue = value
+    @_tickTracker.changed()
 
   timeUntilValue: (value) -> 
-    return Infinity if value > @limit
+    return Infinity if not value or value > @limit
     (value - @value) / (@tickValue / @state.interval)
 
   canSee: -> not @_hide.get()
