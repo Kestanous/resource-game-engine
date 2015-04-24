@@ -5,6 +5,7 @@ Template.hello.helpers
   food: -> GAME.resources.food.getValue()
   foodTick: -> GAME.resources.food.getTick()
   foodLimit: -> GAME.resources.food.getLimit()
+  foodMax: -> GAME.resources.food.atLimit()
 
 Template.hello.events
   'click .tap': -> GAME.tapForFood()

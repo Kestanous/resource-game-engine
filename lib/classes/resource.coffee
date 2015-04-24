@@ -1,6 +1,9 @@
 class @Resource
   constructor: (settings, @state) ->
-    settings ?= {}
+    unless settings and settings.name
+      throw new Meteor.Erorr('Resource Init', 'no Resource name given!')
+
+
     @_valueTracker = new Tracker.Dependency
     @_tickTracker = new Tracker.Dependency
     @_limitTracker = new Tracker.Dependency
@@ -11,9 +14,8 @@ class @Resource
     @value = 0
 
     @name = settings.name
-    if settings.defaultValueInc
-      @setValuesToAdd('default', settings.defaultValueInc) 
-    @limit = settings.defaultLimit
+    @setValuesToAdd('default', settings.tick) if settings.tick
+    @limit = settings.limit
     @inTheRed = settings.inTheRed or -> #noop
 
   getValue: () ->
@@ -27,6 +29,9 @@ class @Resource
   getLimit: () ->
     @_limitTracker.depend()
     @limit
+
+  atLimit: () ->  @getLimit() is @getValue()
+
 
   update: (value) -> 
     if value < 0

@@ -14,20 +14,20 @@ describe "Resource", ->
       expect(@resource.tickValue).toBe(0)
 
     it "instantiation option `tick` should be set", ->
-      resource = new Resource tick: 1
+      resource = new Resource name: 'test', tick: 1
       expect(resource.tickValue).toBe(1)
 
     it 'instantiation option `limit` should default to falsy', ->
       expect(@resource.limit).toBeFalsy()
 
     it "instantiation option `limit` should be set", ->
-      resource = new Resource limit: 1
+      resource = new Resource name: 'test', limit: 1
       expect(resource.limit).toBe(1)
 
     it "option `hide` should be set", ->
       expect(@resource._hide.get()).toBeFalsy()
 
-      resource = new Resource hide: true
+      resource = new Resource name: 'test',  hide: true
       expect(resource._hide.get()).toBe(true)
 
   it "getValue should return the current value", ->
@@ -44,6 +44,15 @@ describe "Resource", ->
       @resource.limit = 1
       @resource.updateLimit(2)
       expect(@resource.limit).toBe(2)
+
+    it "atLimit should be true if value is at the limit", ->
+      @resource.value = 1
+      @resource.limit = 10
+      expect(@resource.atLimit()).toBeFalsy()
+      
+      @resource.value = 10
+      @resource.limit = 10
+      expect(@resource.atLimit()).toBe(true)
       
 
   describe 'update', ->

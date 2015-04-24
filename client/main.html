@@ -9,7 +9,7 @@
 </body>
 
 <template name="hello">
-  <button class="tap">Tap to Spread Praise</button>
+  <button disabled="{{foodMax}}" class="tap">Tap for food</button>
   {{> resourceList resources=resources }}
   <!-- <p>Food: {{formatNumber food}}/{{formatLimit foodLimit}} ({{formatTick foodTick}})</p> -->
 </template>
