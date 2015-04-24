@@ -18,6 +18,7 @@ Template.farms.events
   'click .addFarm': -> GAME.buildings.farms.buy()
 
 Template.registerHelper 'formatNumber', (value) -> 
+  return unless _.isNumber value
   value = formatNumber value
   if value.suffix
     return value.number.toFixed(2) + value.suffix
@@ -26,6 +27,7 @@ Template.registerHelper 'formatNumber', (value) ->
   
 
 Template.registerHelper 'formatTick', (value) -> 
+  return unless _.isNumber value
   result = formatNumber value
   value = result.number.toFixed(2)
   value = '+' + value if value > 0
@@ -33,6 +35,7 @@ Template.registerHelper 'formatTick', (value) ->
   value
 
 Template.registerHelper 'formatLimit', (value) -> 
+  return unless _.isNumber value
   value = formatNumber value
   value.number = parseFloat value.number.toFixed(2) #strip trailing 0s
   value.number = value.number + value.suffix if value.suffix

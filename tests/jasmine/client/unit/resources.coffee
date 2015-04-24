@@ -1,14 +1,34 @@
 describe "Resource", ->
 
   beforeEach ->
-    @resource = new Resource
+    @resource = new Resource(name: 'test')
 
-  it "instantiation option `hide` should be set", ->
-    expect(@resource._hide.get()).toBeFalsy()
+  describe 'instantiation', ->
+    it "option `name` should be set", ->
+      expect(@resource.name).toBe('test')
 
-    resource = new Resource hide: true
-    expect(resource._hide.get()).toBe(true)
+    it "option `name` should be required", ->
+      expect((-> new Resource)).toThrow()
 
+    it 'instantiation option `tick` should default to 0', ->
+      expect(@resource.tickValue).toBe(0)
+
+    it "instantiation option `tick` should be set", ->
+      resource = new Resource tick: 1
+      expect(resource.tickValue).toBe(1)
+
+    it 'instantiation option `limit` should default to falsy', ->
+      expect(@resource.limit).toBeFalsy()
+
+    it "instantiation option `limit` should be set", ->
+      resource = new Resource limit: 1
+      expect(resource.limit).toBe(1)
+
+    it "option `hide` should be set", ->
+      expect(@resource._hide.get()).toBeFalsy()
+
+      resource = new Resource hide: true
+      expect(resource._hide.get()).toBe(true)
 
   it "getValue should return the current value", ->
     @resource.value = 1

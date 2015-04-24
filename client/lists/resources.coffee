@@ -1,7 +1,8 @@
 @ResourceList = [
   {
     name: 'food'
-    defaultValueInc: 1
+    tick: 1
+    limit: 100
     inTheRed: -> #TODO: ppl are going to die
   }
 

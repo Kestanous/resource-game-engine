@@ -10,10 +10,7 @@
 
 <template name="hello">
   <button class="tap">Tap to Spread Praise</button>
-  <br>
-  {{#each resources}}
-    {{name}}: {{getValue}} <br>
-  {{/each}}
+  {{> resourceList resources=resources }}
   <!-- <p>Food: {{formatNumber food}}/{{formatLimit foodLimit}} ({{formatTick foodTick}})</p> -->
 </template>
 
@@ -23,4 +20,18 @@
       Farms ({{numberOwned}})
     </button>
   {{/if}}
+</template>
+
+
+<template name='resourceList'>
+  {{#each resources}}
+    <table class="table resTable">
+      <tr class="resourceRow">
+        <td>{{name}}:</td>
+        <td class="resLimitWarn">{{formatNumber getValue}}</td>
+        <td class="maxRes">/{{formatLimit getLimit}}</td>
+        <td>({{formatTick getTick}})</td>
+      </tr>
+    </table>
+  {{/each}}
 </template>
