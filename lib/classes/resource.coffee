@@ -1,26 +1,34 @@
 class @Resource
   constructor: (settings, @state) ->
     unless settings and settings.name
-      throw new Meteor.Erorr('Resource Init', 'no name given!')
+      throw new Meteor.Error('Resource Init', 'no name given!')
 
 
     @_valueTracker = new Tracker.Dependency
     @_tickTracker = new Tracker.Dependency
     @_limitTracker = new Tracker.Dependency
     @hide = new ReactiveDict
+    @modifiers = new ReactiveDict
     @_valuesToAdd = {}
     @_valuesToMultiply = {}
     @tickValue = 0
     @value = 0
 
     @name = settings.name
-    @setValuesToAdd('default', settings.tick) if settings.tick
     @limit = settings.limit
     @inTheRed = settings.inTheRed or -> #noop
+
+    if _.isFunction settings.calculateTick 
+      @calculateTick = settings.calculateTick 
+    else 
+      @calculateTick = -> @modifiers.get('default')
+
+    @setModifier('default', settings.tick or 0)
 
     _.each(settings.hide, (value, key) => @hide.set key, value ) if settings.hide
     @meta = settings.meta
     
+
   getValue: () ->
     @_valueTracker.depend()
     @value
@@ -59,29 +67,17 @@ class @Resource
       @_valueTracker.changed()
 
   runTick: ->
-    @update @tickValue
+    @update @getTickForRun()
 
+  getTickForRun: -> @tickValue
     
   updateLimit: (value) ->
     @limit = value
     @_limitTracker.changed()
 
-  setValuesToAdd: (name, value) ->
-    @_valuesToAdd[name] = value
-    @_updateTickValue()
-
-  setValuesToMultiply: (name, value) ->
-    @_valuesToMultiply[name] = value
-    @_updateTickValue()
-
-  _updateTickValue: -> 
-    value = _.reduce @_valuesToAdd, ((mem, con) -> if con then mem + con else mem ), 0
-    percent = _.reduce @_valuesToMultiply, ((mem, con) -> if con then mem + con else mem), 0
-    if percent 
-      @tickValue = value * percent 
-    else 
-      @tickValue = value
-    @_tickTracker.changed()
+  setModifier: (key, value) ->
+    @modifiers.set(key, value)
+    @tickValue = @calculateTick()
 
   timeUntilValue: (value) -> 
     return Infinity if not value or value > @limit

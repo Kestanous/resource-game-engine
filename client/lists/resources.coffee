@@ -7,6 +7,7 @@
     name: 'food'
     limit: 5000
     tick: 1
+    calculateTick: -> @modifiers.get('default')
     inTheRed: -> 
       console.log 'red'
   ,

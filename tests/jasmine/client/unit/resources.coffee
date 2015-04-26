@@ -3,27 +3,28 @@ describe "Resource", ->
   beforeEach ->
     @resource = new Resource(name: 'test')
 
-  describe 'instantiation', ->
-    it "option `name` should be set", ->
+  describe 'instantiation option', ->
+    it "`name` should be set", ->
       expect(@resource.name).toBe 'test'
 
-    it "option `name` should be required", ->
+    it "`name` should be required", ->
       expect((-> new Resource)).toThrow()
 
-    it 'instantiation option `tick` should default to 0', ->
-      expect(@resource.tickValue).toBe 0
+    it '`tick` should default to 0', ->
+      expect(@resource.modifiers.get('default')).toBe 0
 
-    it "instantiation option `tick` should be set", ->
+    it "`tick` should be set", ->
       resource = new Resource name: 'test', tick: 1
-      expect(resource.tickValue).toBe 1
+      expect(resource.modifiers.get('default')).toBe 1
 
-    it 'instantiation option `limit` should default to falsy', ->
+    it '`limit` should default to falsy', ->
       expect(@resource.limit).toBeFalsy()
 
-    it "instantiation option `limit` should be set", ->
+    it "`limit` should be set", ->
       resource = new Resource name: 'test', limit: 1
       expect(resource.limit).toBe 1
-    it "instantiation option `meta` should be set", ->
+
+    it "`meta` should be set", ->
       resource = new Resource name: 'test', meta: 1
       expect(resource.meta).toBe 1
 
@@ -31,30 +32,36 @@ describe "Resource", ->
       resource = new Resource name: 'test', meta: meta
       expect(resource.meta).toBe meta
 
-    describe "hide", ->
-      it '`resource` should be set', ->
-        expect(@resource.hide.get('self')).toBeFalsy()
-        
-        resource = new Resource name: 'test',  hide: self: true
-        expect(resource.hide.get('self')).toBe(true)
+    it "`calculateTick` should set a function", ->
+      resource = new Resource 
+        name: 'test'
+        calculateTick: -> return 5
+      expect(resource.calculateTick()).toBe 5
 
-      it '`value` should be set', ->
-        expect(@resource.hide.get('value')).toBeFalsy()
+  describe "hide", ->
+    it '`resource` should be set', ->
+      expect(@resource.hide.get('self')).toBeFalsy()
+      
+      resource = new Resource name: 'test',  hide: self: true
+      expect(resource.hide.get('self')).toBe(true)
 
-        resource = new Resource name: 'test',  hide: value: true
-        expect(resource.hide.get('value')).toBe(true)
+    it '`value` should be set', ->
+      expect(@resource.hide.get('value')).toBeFalsy()
 
-      it '`limit` should be set', ->
-        expect(@resource.hide.get('limit')).toBeFalsy()
+      resource = new Resource name: 'test',  hide: value: true
+      expect(resource.hide.get('value')).toBe(true)
 
-        resource = new Resource name: 'test',  hide: limit: true
-        expect(resource.hide.get('limit')).toBe(true)
+    it '`limit` should be set', ->
+      expect(@resource.hide.get('limit')).toBeFalsy()
 
-      it '`tick` should be set', ->
-        expect(@resource.hide.get('tick')).toBeFalsy()
+      resource = new Resource name: 'test',  hide: limit: true
+      expect(resource.hide.get('limit')).toBe(true)
 
-        resource = new Resource name: 'test',  hide: tick: true
-        expect(resource.hide.get('tick')).toBe(true)
+    it '`tick` should be set', ->
+      expect(@resource.hide.get('tick')).toBeFalsy()
+
+      resource = new Resource name: 'test',  hide: tick: true
+      expect(resource.hide.get('tick')).toBe(true)
 
   describe 'value', ->
 
@@ -123,17 +130,34 @@ describe "Resource", ->
       @resource.runTick()
       expect(@resource.value).toBe(2)
 
-    it 'setValuesToAdd should add to tick', ->
-      @resource.setValuesToAdd 'key1', 1
-      expect(@resource.tickValue).toBe(1)
+    it 'setModifier add a modifier', ->
+      @resource.setModifier 'key1', 1
+      expect(@resource.modifiers.get('key1')).toBe(1)
 
-      @resource.setValuesToAdd 'key2', 1
-      expect(@resource.tickValue).toBe(2)
+      @resource.setModifier 'key2', 2
+      expect(@resource.modifiers.get('key2')).toBe(2)
 
-    it 'setValuesToMultiply should multiply tick', ->
-      @resource.setValuesToAdd 'add', 2
-      @resource.setValuesToMultiply 'multiply', 2
-      expect(@resource.tickValue).toBe(4)
+    it 'setModifier call should reflect in tickValue', ->
+      resource = new Resource
+        name: 'test'
+        calculateTick: -> @modifiers.get('key')
+
+      resource.setModifier 'key', 1
+      expect(resource.tickValue).toBe(1)
+
+    it 'getTickForRun should return tick', ->
+      @resource.tickValue = 1
+      expect(@resource.getTickForRun()).toBe(1)
+    
+    it 'getTickForRun with modifiers and set calculateTick should return tick', ->
+      resource = new Resource
+        name: 'test'
+        calculateTick: -> @modifiers.get('key1') + @modifiers.get('key2')
+
+      resource.setModifier 'key1', 1
+      resource.setModifier 'key2', 2
+
+      expect(resource.getTickForRun()).toBe(3)
 
     it 'timeUntilValue should return time until value is reached', ->
       @resource.value = 0

@@ -1,7 +1,5 @@
 ###
 
-ok so here is the deal.
-
 Game can have a resource added (resources)
 
 Game can have a modifier added (modifier)
