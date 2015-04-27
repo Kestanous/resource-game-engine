@@ -8,8 +8,7 @@
     limit: 5000
     tick: 1
     calculateTick: -> @modifiers.get('default')
-    inTheRed: -> 
-      console.log 'red'
+    inTheRed: (amount) -> console.log "in the red by #{amount}"
   ,
     name: 'wood'
     limit: 100

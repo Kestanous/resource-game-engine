@@ -1,8 +1,7 @@
 class @Resource
-  constructor: (settings, @state) ->
-    unless settings and settings.name
+  constructor: (config, @state) ->
+    unless config and config.name
       throw new Meteor.Error('Resource Init', 'no name given!')
-
 
     @_valueTracker = new Tracker.Dependency
     @_tickTracker = new Tracker.Dependency
@@ -14,19 +13,19 @@ class @Resource
     @tickValue = 0
     @value = 0
 
-    @name = settings.name
-    @limit = settings.limit
-    @inTheRed = settings.inTheRed or -> #noop
+    @name = config.name
+    @limit = config.limit
+    @inTheRed = config.inTheRed or -> #noop
 
-    if _.isFunction settings.calculateTick 
-      @calculateTick = settings.calculateTick 
+    if _.isFunction config.calculateTick 
+      @calculateTick = config.calculateTick 
     else 
       @calculateTick = -> @modifiers.get('default')
 
-    @setModifier('default', settings.tick or 0)
+    @setModifier('default', config.tick or 0)
 
-    _.each(settings.hide, (value, key) => @hide.set key, value ) if settings.hide
-    @meta = settings.meta
+    _.each(config.hide, (value, key) => @hide.set key, value ) if config.hide
+    @meta = config.meta
     
 
   getValue: () ->
@@ -57,7 +56,7 @@ class @Resource
     if temp < 0
       @value = 0
       @_valueTracker.changed()
-      @inTheRed()
+      @inTheRed(temp)
     else if not @limit or temp <= @limit
       @value = temp
       @_valueTracker.changed()
@@ -66,8 +65,7 @@ class @Resource
       @limitHit = true
       @_valueTracker.changed()
 
-  runTick: ->
-    @update @getTickForRun()
+  runTick: -> @update @getTickForRun()
 
   getTickForRun: -> @tickValue
     
