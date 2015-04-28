@@ -6,8 +6,7 @@
   , #new object
     name: 'food'
     limit: 5000
-    tick: 1
-    calculateTick: -> @modifiers.get('default')
+    calculateTick: -> @modifiers.get('fields') 
     inTheRed: (amount) -> console.log "in the red by #{amount}"
   ,
     name: 'wood'

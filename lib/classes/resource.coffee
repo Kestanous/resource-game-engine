@@ -42,7 +42,12 @@ class @Resource
 
   atLimit: () ->  @getLimit() is @getValue()
 
-  update: (value) -> 
+  update: (value, force) -> 
+    if force
+      @value = value
+      @_valueTracker.changed()
+      return
+
     if value < 0
       @limitHit = false if @limitHit
       @_update(value)
@@ -74,8 +79,15 @@ class @Resource
     @_limitTracker.changed()
 
   setModifier: (key, value) ->
+    console.log key
     @modifiers.set(key, value)
-    @tickValue = @calculateTick()
+    value = @calculateTick()
+    console.log value
+    if value
+      @tickValue = value
+    else 
+      @tickValue = 0
+    @_tickTracker.changed()
 
   timeUntilValue: (value) -> 
     return Infinity if not value or value > @limit

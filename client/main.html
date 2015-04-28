@@ -18,12 +18,12 @@
 </template>
 
 <template name='buildings'>
-  {{#each building}}
-    {{#unless hide.get 'self'}}
-      <button class="buy" disabled='{{cannotPay}}'>
-        {{name}} ({{numberOwned}})
+  {{#each buildings}}
+    <!-- {{#unless hide.get 'self'}} -->
+      <button class="buy" disabled='{{cannotBuy}}'>
+        {{name}} ({{getCount}})
       </button>
-    {{/unless}}
+    <!-- {{/unless}} -->
   {{/each}}
 </template>
 

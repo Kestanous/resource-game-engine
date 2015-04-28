@@ -4,6 +4,8 @@ class @Game
 
     @resources = {}
     @modifiers = {}
+    @buildings = {}
+    @buildingsTrackers = {}
 
   pay: (cost) -> #nonreactive
     Tracker.nonreactive => #run only once, not reactively
@@ -24,6 +26,14 @@ class @Game
   addModifier: (settings) -> #nonreactive
     modifier = new Modifier(settings, @)
     @modifiers[modifier.name] = modifier
+
+  addBuilding: (settings) -> #nonreactive
+    building = new Building(settings, @)
+    @buildings[building.name] = building
+    @buildingsTrackers[building.name] = Tracker.autorun (c) -> 
+      building._countTracker.depend()
+      building.effect() unless c.firstRun
+        
 
   start: () -> #nonreactive
     @stop() #clean up if needed

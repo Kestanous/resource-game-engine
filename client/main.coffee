@@ -15,7 +15,7 @@ Template.buildings.helpers
   numberOwned: -> GAME.buildings.farms.numberOwned()
 
 Template.buildings.events
-  'click .addFarm': -> GAME.buildings.farms.buy()
+  'click .buy': -> @buy()
 
 Template.registerHelper 'formatNumber', (value) -> 
   return unless _.isNumber value

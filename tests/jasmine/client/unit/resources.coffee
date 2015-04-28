@@ -118,11 +118,29 @@ describe "Resource", ->
       @resource.update(100)
       expect(@resource.value).toBe(10)
 
+    it "update(num, true) should set value to first argument", ->
+      @resource.value = 1
+      @resource.update(9, true)
+      expect(@resource.value).toBe(9)
+    
+    it "update(num, true) should ignore limit", ->
+      @resource.limit = 5
+      @resource.update(9, true)
+      expect(@resource.value).toBe(9)
+
+
   describe 'tickValue', ->
 
     it "getTick should return the current tick", ->
+      @resource.tickValue = 0
+      expect(@resource.getTick()).toBe(0)
+
       @resource.tickValue = 1
       expect(@resource.getTick()).toBe(1)
+
+      @resource.tickValue = -1
+      expect(@resource.getTick()).toBe(-1)
+
 
     it 'runTick should update the value by the tick', ->
       @resource.value = 1
@@ -146,8 +164,14 @@ describe "Resource", ->
       expect(resource.tickValue).toBe(1)
 
     it 'getTickForRun should return tick', ->
+      @resource.tickValue = 0
+      expect(@resource.getTickForRun()).toBe(0)
+
       @resource.tickValue = 1
       expect(@resource.getTickForRun()).toBe(1)
+
+      @resource.tickValue = -1
+      expect(@resource.getTickForRun()).toBe(-1)
     
     it 'getTickForRun with modifiers and set calculateTick should return tick', ->
       resource = new Resource
@@ -167,4 +191,13 @@ describe "Resource", ->
 
       @resource.tickValue = 2
       expect(@resource.timeUntilValue(10)).toBe(5)
+
+    it "onModifierChange should fire when modifiers change", ->
+      test = false
+      @resource.onModifierChange = -> test = true
+      @resource.setModifier 'key', 1
+      Tracker.flush()
+      expect(test).toBe(true)
+
+
 
