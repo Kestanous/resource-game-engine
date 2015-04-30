@@ -1,14 +1,19 @@
 @ResourceList = [ #array of objects
-  name: 'people'
-  hide: 
-    limit: true
-    tick: true
-  , #new object
-    name: 'food'
-    limit: 5000
-    calculateTick: -> @modifiers.get('fields') 
-    inTheRed: (amount) -> console.log "in the red by #{amount}"
-  ,
-    name: 'wood'
-    limit: 100
+  name: 'food'
+  maxValue: 5000
+  calculateTick: -> 
+    ((@getModifier('fields') or 0) * (1 + (@getModifier('fields') or 0))) + (@getModifier('people') or 0) + (@getModifier('farmers') or 0)
+  inTheRed: (amount) -> console.log "in the red by #{amount}"
+,
+  name: 'wood'
+  maxValue: 100
+  calculateTick: -> @getModifier('woodcutters')
+,
+  name: 'science'
+  maxValue: 500
+  calculateTick: -> @getModifier('scientists')
+,
+  name: 'mineral'
+  maxValue: 200
+  calculateTick: -> @getModifier('miners')  
 ]

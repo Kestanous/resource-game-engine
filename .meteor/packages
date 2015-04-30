@@ -10,12 +10,14 @@ insecure
 
 #
 reactive-var
-
+reactive-dict
 #
 coffeescript
+
+
+private:game-engine
 
 
 #test
 sanjo:jasmine
 velocity:html-reporter
-reactive-dict

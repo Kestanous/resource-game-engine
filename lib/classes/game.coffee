@@ -1,4 +1,4 @@
-class @Game
+class @Game extends Module
   constructor: (savedGame) ->
     @interval = 200 #tick length
 
@@ -10,7 +10,7 @@ class @Game
   pay: (cost) -> #nonreactive
     Tracker.nonreactive => #run only once, not reactively
       if @canPay(cost) 
-        _.each cost, (value, key) => @resources[key].update -value
+        _.each cost, (value, key) => @resources[key].updateValue -value
         return true
       else
         false
@@ -31,15 +31,15 @@ class @Game
     building = new Building(settings, @)
     @buildings[building.name] = building
     @buildingsTrackers[building.name] = Tracker.autorun (c) -> 
-      building._countTracker.depend()
-      building.effect() unless c.firstRun
+      building._valueTracker.depend()
+      Tracker.nonreactive -> building.effect() unless c.firstRun
         
 
   start: () -> #nonreactive
     @stop() #clean up if needed
-    @_intervalId = Meteor.setInterval (=> @_update()), @interval
+    @_intervalId = Meteor.setInterval (=> @onTick()), @interval
 
-  _update: -> #nonreactive, for game tick only
+  onTick: -> #nonreactive, for game tick only
     for resource, obj of @resources then obj.runTick()
 
   stop: () -> Meteor.clearInterval(@_intervalId) if @_intervalId

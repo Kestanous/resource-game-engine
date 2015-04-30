@@ -4,7 +4,6 @@
 
 <body>
   <h1>Welcome to Meteor!</h1>
-
   {{> game}}
 </body>
 
@@ -14,37 +13,43 @@
     <button disabled="{{cannotRefineFoodToWood}}" class="refineFood">Refine Food</button>
     {{> resourceList resources=getResources }}
     {{> buildings buildings=getBuildings}}
+    {{> people people=game.people }}
   {{/with}}
 </template>
 
 <template name='buildings'>
   {{#each buildings}}
-    <!-- {{#unless hide.get 'self'}} -->
-      <button class="buy" disabled='{{cannotBuy}}'>
-        {{name}} ({{getCount}})
-      </button>
-    <!-- {{/unless}} -->
+    <button class="buy" disabled='{{cannotBuy}}'>
+      {{name}} ({{getValue}})
+    </button>
   {{/each}}
 </template>
 
 
 <template name='resourceList'>
   <table class="table resTable">
+    <tr class="resourceRow">
+      <td>{{../people.name}}:</td>
+      <td class="resLimitWarn">{{formatNumber ../people.getValue}}</td>
+    </tr>
     {{#each resources}}
-      {{#unless hide.get 'self'}}
-        <tr class="resourceRow">
-          <td>{{name}}:</td>
-          {{#unless hide.get 'value'}}
-          <td class="resLimitWarn">{{formatNumber getValue}}</td>
-          {{/unless}}
-          {{#unless hide.get 'limit'}}
-            <td class="maxRes">/{{formatLimit getLimit}}</td>
-          {{/unless}}
-          {{#unless hide.get 'tick'}}
-            <td>({{formatTick getTick}})</td>
-          {{/unless}}
-        </tr>
-      {{/unless}}
+      {{> resource }}
     {{/each}}
   </table>
+</template>
+
+<template name='resource'>
+  <tr class="resourceRow">
+    <td>{{name}}:</td>
+    <td class="resLimitWarn">{{formatNumber getValue}}</td>
+      <td class="maxRes">/{{formatLimit getMaxValue}}</td>
+      <td>({{formatTick getTick}})</td>
+  </tr>
+</template>
+
+<template name='people'>
+  available people {{people.assignmentAvailable.get}}
+  {{#each job}}
+  {{name}} ({{value}}) <button class="plus">+</button><button class="minus">-</button>
+  {{/each}}
 </template>

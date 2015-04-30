@@ -58,4 +58,13 @@ formatNumber = (num) ->
       formatedNumber.suffix = range.suffix
   return formatedNumber
 
+Template.people.helpers
+  job: ->
+    if @people
+      _.map @people.assignmentOptions.get(), (job) =>
+        name: job, value: @people.getAssignment(job), handle: @people
+    else []
 
+Template.people.events
+  'click .plus': () -> @handle.setAssignment(@name, 1)
+  'click .minus': () -> @handle.setAssignment(@name, -1)

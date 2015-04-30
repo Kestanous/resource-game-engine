@@ -17,12 +17,12 @@ describe "Resource", ->
       resource = new Resource name: 'test', tick: 1
       expect(resource.modifiers.get('default')).toBe 1
 
-    it '`limit` should default to falsy', ->
-      expect(@resource.limit).toBeFalsy()
+    it '`maxValue` should default to falsy', ->
+      expect(@resource.maxValue).toBeFalsy()
 
-    it "`limit` should be set", ->
-      resource = new Resource name: 'test', limit: 1
-      expect(resource.limit).toBe 1
+    it "`maxValue` should be set", ->
+      resource = new Resource name: 'test', maxValue: 1
+      expect(resource.maxValue).toBe 1
 
     it "`meta` should be set", ->
       resource = new Resource name: 'test', meta: 1
@@ -37,6 +37,13 @@ describe "Resource", ->
         name: 'test'
         calculateTick: -> return 5
       expect(resource.calculateTick()).toBe 5
+
+    it "`onModifierChange` should set a function", ->
+      resource = new Resource 
+        name: 'test'
+        onModifierChange: -> return 5
+        
+      expect(resource.onModifierChange()).toBe 5
 
   describe "hide", ->
     it '`resource` should be set', ->
@@ -69,65 +76,65 @@ describe "Resource", ->
       @resource.value = 1
       expect(@resource.getValue()).toBe(1)
 
-  describe 'limit', ->
+  describe 'maxValue', ->
 
-    it "getLimit should return the current limit", ->
-      @resource.limit = 1
-      expect(@resource.getLimit()).toBe(1)
+    it "getMaxValue should return the current max", ->
+      @resource.maxValue = 1
+      expect(@resource.getMaxValue()).toBe(1)
 
-    it "updateLimit should set the current limit", ->
-      @resource.limit = 1
-      @resource.updateLimit(2)
-      expect(@resource.limit).toBe(2)
+    it "setMaxValue should set the current max", ->
+      @resource.maxValue = 1
+      @resource.setMaxValue(2)
+      expect(@resource.maxValue).toBe(2)
 
-    it "atLimit should be true if value is at the limit", ->
+    it "atLimit should tell if value is at the max", ->
       @resource.value = 1
-      @resource.limit = 10
+      @resource.maxValue = 10
       expect(@resource.atLimit()).toBeFalsy()
 
       @resource.value = 10
-      @resource.limit = 10
+      @resource.maxValue = 10
       expect(@resource.atLimit()).toBe(true)
       
 
-  describe 'update', ->
+  describe 'updateValue', ->
     beforeEach ->
       @resource.value = 1
 
     it "should add argument to current value", ->
-      @resource.update(1)
+      @resource.updateValue(1)
       expect(@resource.value).toBe(2)
-      @resource.update(-1)
+      @resource.updateValue(-1)
       expect(@resource.value).toBe(1)
 
-    it "should not set value below 0", ->
-      @resource.update(-1)
-      expect(@resource.value).toBe(0)
+    it "should call underMinValue if set value below minValue", ->
+      test = false
+      @resource.underMinValue = -> test = true
+      @resource.minValue = 0
+      @resource.updateValue(-1)
+      expect(test).toBe(false) #is 0
 
       @resource.value = 1
-      @resource.update(-10)
-      expect(@resource.value).toBe(0)
+      @resource.updateValue(-10)
+      expect(test).toBe(true)
 
-    it "should not set value above the limit", ->
-      @resource.limit = 10
-      @resource.update(9)
-      expect(@resource.value).toBe(10)
+    it "should call underMinValue if set value above maxValue", ->
+      test = false
+      @resource.overMaxValue = -> test = true
 
-      @resource.limit = 10
+      @resource.maxValue = 10
+      @resource.updateValue(9) #is 10
+      expect(test).toBe(false)
+
       @resource.value = 1
-      @resource.update(100)
-      expect(@resource.value).toBe(10)
+      @resource.updateValue(100)
+      expect(test).toBe(true)
 
-    it "update(num, true) should set value to first argument", ->
-      @resource.value = 1
-      @resource.update(9, true)
-      expect(@resource.value).toBe(9)
+  it "setValue should set value", ->
+    @resource.value = 1
+    @resource.setValue(9)
+    expect(@resource.value).toBe(9)
     
-    it "update(num, true) should ignore limit", ->
-      @resource.limit = 5
-      @resource.update(9, true)
-      expect(@resource.value).toBe(9)
-
 
   describe 'tickValue', ->
 
@@ -161,6 +168,7 @@ describe "Resource", ->
         calculateTick: -> @modifiers.get('key')
 
       resource.setModifier 'key', 1
+      Tracker.flush() #required as this calls reactively
       expect(resource.tickValue).toBe(1)
 
     it 'getTickForRun should return tick', ->
