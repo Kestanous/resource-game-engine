@@ -1,4 +1,4 @@
-Modules.valueModule =
+Modules.value =
   constructor: ->
     @_valueTracker = new Tracker.Dependency
     @_minValueTracker = new Tracker.Dependency

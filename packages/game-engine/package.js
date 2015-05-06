@@ -19,7 +19,8 @@ Package.onUse(function (api) {
     'cost',
     'modifier',
     'tick',
-    'value'
+    'value',
+    'unlock'
   ]
 
   for (var i = _files.length - 1; i >= 0; i--) {
@@ -28,14 +29,13 @@ Package.onUse(function (api) {
   
   api.addFiles(files, ['client', 'server']);
 
-  api.export(['Module', 'Modules']);
+  api.export(['Module', 'Modules', 'Unlock']);
 });
 
 Package.onTest(function (api) {
   api.use('sanjo:jasmine@0.12.7');
   api.use("coffeescript", ["client", "server"]);
   api.use('private:game-engine');
-  api.addFiles([
-    // 'tests/example.coffee'
-  ], ["client", "server"]);
+  var both = []
+  api.addFiles(both, ["client", "server"]);
 })

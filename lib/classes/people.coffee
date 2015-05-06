@@ -1,11 +1,12 @@
 class @People extends Module
-  @include Modules.valueModule
-  @include Modules.modifierModule
-  @include Modules.assignmentModule
+  @include Modules.value
+  @include Modules.modifier
+  @include Modules.assignment
+
   constructor: (config, @state) ->
     super
     @name = 'people'
-    @assignmentOptions.set [
+    @assignmentSlots.set [
       'woodcutter'
       'farmer'
     ]
@@ -15,14 +16,12 @@ class @People extends Module
     
     Tracker.autorun =>
       @assignmentCapacity.set @getValue()
+      
+    Tracker.autorun =>
+      @state.buckets.resources.food.setModifier 'people', -0.5 * @getValue()
 
     Tracker.autorun =>
-      @state.resources.food.setModifier 'people', -0.5 * @getValue()
+      @state.buckets.resources.wood.setModifier 'woodcutters', 0.015 * @assignment.get('woodcutter')
 
     Tracker.autorun =>
-      @state.resources.wood.setModifier 'woodcutters', 0.015 * @assignment.get('woodcutter')
-
-    Tracker.autorun =>
-      @state.resources.food.setModifier 'farmers', 1 * @assignment.get('farmer')
-
-    Tracker.autorun =>
+      @state.buckets.resources.food.setModifier 'farmers', 1 * @assignment.get('farmer')

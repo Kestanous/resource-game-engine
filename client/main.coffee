@@ -1,18 +1,19 @@
-Template.game.onCreated -> GAME.start()
+@GAME = new Game
+Template.game.onCreated -> 
+  @game = GAME
 
-Template.game.onDestroyed -> GAME.stop()  
+Template.game.onRendered -> @game.start()
+
+Template.game.onDestroyed -> @game.stop()  
 
 Template.game.helpers
-  game: -> GAME
+  game: -> Template.instance().game
+  getBuildings: -> Template.instance().game.getItems 'buildings'
+  getResources: -> Template.instance().game.getItems 'resources'
 
 Template.game.events
-  'click .tap': -> GAME.tapForFood()
-  'click .refineFood': -> GAME.refineFoodToWood()
-
-Template.buildings.helpers
-  canSee: -> GAME.buildings.farms.canSee()
-  disabled: -> 'disabled' unless GAME.buildings.farms.canBuy()
-  numberOwned: -> GAME.buildings.farms.numberOwned()
+  'click #tap': -> Template.instance().game.tapForFood()
+  'click .refineFood': -> Template.instance().game.refineFoodToWood()
 
 Template.buildings.events
   'click .buy': -> @buy()
@@ -29,7 +30,7 @@ Template.registerHelper 'formatNumber', (value) ->
 Template.registerHelper 'formatTick', (value) -> 
   return unless _.isNumber value
   result = formatNumber value
-  value = result.number.toFixed(2)
+  value = result.number.toFixed(2) * 5
   value = '+' + value if value > 0
   value = value + result.suffix if result.suffix
   value
@@ -61,10 +62,11 @@ formatNumber = (num) ->
 Template.people.helpers
   job: ->
     if @people
-      _.map @people.assignmentOptions.get(), (job) =>
+      _.map @people.assignmentSlots.get(), (job) =>
         name: job, value: @people.getAssignment(job), handle: @people
     else []
 
 Template.people.events
   'click .plus': () -> @handle.setAssignment(@name, 1)
   'click .minus': () -> @handle.setAssignment(@name, -1)
+

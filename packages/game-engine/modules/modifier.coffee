@@ -1,4 +1,4 @@
-Modules.modifierModule = 
+Modules.modifier = 
   constructor: ->
     @_modifierTracker = new Tracker.Dependency
     @modifiers = new ReactiveDict

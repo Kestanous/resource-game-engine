@@ -1,4 +1,4 @@
-moduleKeywords = ['extended', 'included', 'constructor']
+moduleKeywords = ['extended', 'included', 'constructor', 'class']
 
 class Module
   constructor: ->
@@ -15,10 +15,12 @@ class Module
     for key, value of obj when key not in moduleKeywords
       # Assign properties to the prototype
       @::[key] = value
-
     #mock constrictor 
     @::inits ?= []
     @::inits.push obj.constructor if obj.constructor
+
+    for key, value of obj.class
+      @[key] = value
 
     obj.included?.apply(@)
     this

@@ -1,4 +1,4 @@
-Modules.tickModule = 
+Modules.tick = 
   constructor: ->
     @_tickTracker = new Tracker.Dependency
   getTick: () ->

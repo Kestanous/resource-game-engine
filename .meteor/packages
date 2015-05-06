@@ -13,7 +13,8 @@ reactive-var
 reactive-dict
 #
 coffeescript
-
+stylus
+cwaring:modernizr
 
 private:game-engine
 

@@ -9,11 +9,11 @@
 
 <template name="game">
   {{#with game}}
-    <button disabled="{{resources.food.atLimit}}" class="tap">Tap for food</button>
+    {{> ProgressButton id='tap' name='Tap for food' disabled="{{resources.food.atLimit}}"}}
     <button disabled="{{cannotRefineFoodToWood}}" class="refineFood">Refine Food</button>
     {{> resourceList resources=getResources }}
-    {{> buildings buildings=getBuildings}}
-    {{> people people=game.people }}
+    {{> buildings buildings=getBuildings }}
+    {{> people people=game.buckets.people.people }}
   {{/with}}
 </template>
 
@@ -29,8 +29,8 @@
 <template name='resourceList'>
   <table class="table resTable">
     <tr class="resourceRow">
-      <td>{{../people.name}}:</td>
-      <td class="resLimitWarn">{{formatNumber ../people.getValue}}</td>
+      <td>{{../buckets.people.people.name}}:</td>
+      <td class="resLimitWarn">{{formatNumber ../buckets.people.people.getValue}}</td>
     </tr>
     {{#each resources}}
       {{> resource }}

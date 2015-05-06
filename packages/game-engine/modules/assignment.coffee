@@ -1,15 +1,15 @@
 # TODO, add a max scoped for each assignment option
 
-Modules.assignmentModule =
+Modules.assignment =
   constructor: ->
     @assignment = new ReactiveDict
     @assignmentAvailable = new ReactiveVar(0)
     @assignmentCapacity = new ReactiveVar(0)
-    @assignmentOptions = new ReactiveVar([])
+    @assignmentSlots = new ReactiveVar([])
     @_assignmentOldCapacity = 0
     @assignmentCapacityAutorun = Tracker.autorun => @_assignmentCapUpdate()
 
-  isAnAssignmentOption: (key) -> _.contains @assignmentOptions.get(), key
+  isAnAssignmentSlot: (key) -> _.contains @assignmentSlots.get(), key
   _assignmentCapUpdate: () ->
     newValue = @assignmentCapacity.get()
     oldValue = @_assignmentOldCapacity
@@ -28,7 +28,7 @@ Modules.assignmentModule =
 
   setAssignment: (key, value, set) ->
     Tracker.nonreactive => #never rerun, holy shit!
-      unless @isAnAssignmentOption(key)
+      unless @isAnAssignmentSlot(key)
         throw new Meteor.Error('AssignmentModule', "key: #{key} not found")
 
       currentValue = @assignment.get(key) or 0
