@@ -8,13 +8,15 @@
 </body>
 
 <template name="game">
-  {{#with game}}
-    {{> ProgressButton id='tap' name='Tap for food' disabled="{{resources.food.atLimit}}"}}
-    <button disabled="{{cannotRefineFoodToWood}}" class="refineFood">Refine Food</button>
-    {{> resourceList resources=getResources }}
-    {{> buildings buildings=getBuildings }}
-    {{> people people=game.buckets.people.people }}
-  {{/with}}
+  <div id='game'>
+    {{#with game}}
+      {{> ProgressButton id='tap' name='Tap for food' disabled="{{resources.food.atLimit}}"}}
+      <button disabled="{{cannotRefineFoodToWood}}" class="refineFood">Refine Food</button>
+      {{> resourceList resources=getResources }}
+      {{> buildings buildings=getBuildings }}
+      {{> people people=game.buckets.people.people }}
+    {{/with}}
+  </div>
 </template>
 
 <template name='buildings'>

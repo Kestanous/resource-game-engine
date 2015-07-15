@@ -1,6 +1,5 @@
-@GAME = new Game
 Template.game.onCreated -> 
-  @game = GAME
+  @game = new Game
 
 Template.game.onRendered -> @game.start()
 
@@ -69,4 +68,7 @@ Template.people.helpers
 Template.people.events
   'click .plus': () -> @handle.setAssignment(@name, 1)
   'click .minus': () -> @handle.setAssignment(@name, -1)
+
+
+@getTemplate = (elm) -> Blaze.getView($(elm)[0]).templateInstance() 
 
