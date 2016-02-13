@@ -12,7 +12,7 @@ Template.game.helpers
   game: => @GAME
 
 Template.game.events
-  'mouseenter .hint': -> if @hint then Session.set "hoverHint", {bucket: @bucket, key: @key}
+  'mouseenter .hint': -> Session.set "hoverHint", {bucket: @bucket, key: @key}
 
 Template.hoverHint.helpers
   bucket: -> 
@@ -24,13 +24,9 @@ Template.hoverHint.helpers
   hint: ->
     hoverHint = Session.get('hoverHint')
     return unless hoverHint?.bucket && hoverHint.key
-    
     bucket = GAME.buckets(hoverHint.bucket, hoverHint.key)
-    return unless bucket?.hint
-    out = []
-    for key, value of bucket.hint
-      out.push name: key, value: value.apply(bucket)
-    out
+    return unless bucket
+    bucket.getHint()
 
 Template.action.helpers
   toFixed: (value) -> return value.toFixed(0)
@@ -62,8 +58,8 @@ Template.registerHelper 'formatNumber', (value) ->
 
 Template.registerHelper 'formatTick', (value) -> 
   return unless value
-  result = formatNumber value
-  value = result.number.toFixed(2) / GAME.interval
+  result = formatNumber(value / GAME.interval )
+  value = result.number.toFixed(2) 
   value = '+' + value if value > 0
   value = value + result.suffix if result.suffix
   value

@@ -41,26 +41,19 @@
       </tr>
     </thead>
     {{#each getBucket 'resources' }}
-      {{> tableResourceRow }}
+      {{#if getValue}}
+        {{> tableResourceRow }}
+      {{/if}}
     {{/each}}
   </table>
 </template>
 
 <template name='tableResourceRow'>
-  <tr class="resourceRow">
+  <tr class="resourceRow hint">
     <td>{{name}}:</td>
     <td>{{formatNumber getValue}}</td>
-    <td>
-      {{#if formatNumber getMaxValue}}
-        /{{ formatNumber getMaxValue}}
-      {{/if}}
-    </td>
-
-    <td>
-      {{#if getTickValue}}
-        {{formatTick getTickValue}}
-      {{/if}}
-    </td>
+    <td>{{formatNumber getMaxValue}}</td>
+    <td>{{formatTick getTickValue}}</td>
   </tr>
 </template>
 
@@ -124,11 +117,13 @@
 
 <template name='log'>
   {{#if log}}
-    <div class="card card-block">
-      <h4 class="card-title">Activity Log</h4>
-      {{#each log}}
-        <span class="text-{{color}}">{{message}}</span><br>
-      {{/each}}
+    <div class="card text-xs-center">
+      <h4 class="card-header">Activity Log</h4>
+      <div class="card-block">
+        {{#each log}}
+          <span class="text-{{color}}">{{message}}</span><br>
+        {{/each}}
+      </div>
     </div>
   {{/if}}
 </template>
@@ -136,22 +131,14 @@
 <template name='hoverHint'>
   {{#if hint}}
     <div class="card text-xs-center">
-      <h3 class="card-header">{{key}}</h3>
+      <h3 class="card-header text-uppercase">{{key}}</h3>
       <div class="card-block">
-        {{#each hint}}
-          <h5 class="card-title">{{name}}</h5>
-          <p class="card-text">{{value}}</p>
-        {{/each}}
+        <p class="card-text">{{hint.description}}</p>
+        {{#if hint.cost}}
+          <h5 class="card-title">cost</h5>
+          <p class="card-text">{{hint.cost}}</p>
+        {{/if}}
       </div>
     </div>
   {{/if}}
 </template>
-
-<!-- <template name='resource'>
-  <tr class="resourceRow">
-    <td>{{name}}:</td>
-    <td class="resLimitWarn">{{formatNumber getValue}}</td>
-      <td class="maxRes">/{{formatLimit getMaxValue}}</td>
-      <td>({{formatTick getTick}})</td>
-  </tr>
-</template> -->
