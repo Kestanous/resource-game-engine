@@ -4,21 +4,30 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+ecmascript
+
 autopublish
 insecure
 
-#
+
+coffeescript
 reactive-var
 reactive-dict
-#
-coffeescript
-stylus
-cwaring:modernizr
-
+coursierprive:tether
+twbs:bootstrap@4.0.0-alpha.2
 private:game-engine
 
-
-#test
-sanjo:jasmine
-velocity:html-reporter

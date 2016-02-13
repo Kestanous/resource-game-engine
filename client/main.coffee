@@ -1,24 +1,58 @@
-Template.game.onCreated -> 
-  @game = new Game
+@GAME = new Game()
 
-Template.game.onRendered -> @game.start()
+Template.log.helpers
+  log: -> log.find({}, {limit: 15, sort: {time: -1}}).fetch()
 
-Template.game.onDestroyed -> @game.stop()  
+Template.game.onRendered => 
+  GAME.loadAge('scavenger')
+  @GAME.start()
+Template.game.onDestroyed => @GAME.stop()  
 
 Template.game.helpers
-  game: -> Template.instance().game
-  getBuildings: -> Template.instance().game.getItems 'buildings'
-  getResources: -> Template.instance().game.getItems 'resources'
+  game: => @GAME
 
 Template.game.events
-  'click #tap': -> Template.instance().game.tapForFood()
-  'click .refineFood': -> Template.instance().game.refineFoodToWood()
+  'mouseenter .hint': -> if @hint then Session.set "hoverHint", {bucket: @bucket, key: @key}
 
-Template.buildings.events
-  'click .buy': -> @buy()
+Template.hoverHint.helpers
+  bucket: -> 
+    {bucket} = Session.get('hoverHint')
+    bucket
+  key: -> 
+    {key} = Session.get('hoverHint')
+    key
+  hint: ->
+    hoverHint = Session.get('hoverHint')
+    return unless hoverHint?.bucket && hoverHint.key
+    
+    bucket = GAME.buckets(hoverHint.bucket, hoverHint.key)
+    return unless bucket?.hint
+    out = []
+    for key, value of bucket.hint
+      out.push name: key, value: value.apply(bucket)
+    out
 
-Template.registerHelper 'formatNumber', (value) -> 
-  return unless _.isNumber value
+Template.action.helpers
+  toFixed: (value) -> return value.toFixed(0)
+
+Template.action.events
+  'click button': -> @buy()
+
+Template.technology.helpers
+  disabled: () -> 
+    if @disabled() then true else not @canBuy()
+  color: () ->
+    if @disabled() then 'success' else 'primary'
+
+Template.technology.events
+  'click button': -> @buy()
+
+Template.registerHelper 'getBucket', (bucket) -> 
+  obj = GAME.buckets(bucket)
+  _.values(obj) if obj
+
+Template.registerHelper 'formatNumber', (value) ->
+  return if not isFinite(value)
   value = formatNumber value
   if value.suffix
     return value.number.toFixed(2) + value.suffix
@@ -27,15 +61,15 @@ Template.registerHelper 'formatNumber', (value) ->
   
 
 Template.registerHelper 'formatTick', (value) -> 
-  return unless _.isNumber value
+  return unless value
   result = formatNumber value
-  value = result.number.toFixed(2) * 5
+  value = result.number.toFixed(2) / GAME.interval
   value = '+' + value if value > 0
   value = value + result.suffix if result.suffix
   value
 
 Template.registerHelper 'formatLimit', (value) -> 
-  return unless _.isNumber value
+  return unless value
   value = formatNumber value
   value.number = parseFloat value.number.toFixed(2) #strip trailing 0s
   value.number = value.number + value.suffix if value.suffix
@@ -57,18 +91,3 @@ formatNumber = (num) ->
       formatedNumber.number = (num / range.divider.toString()) 
       formatedNumber.suffix = range.suffix
   return formatedNumber
-
-Template.people.helpers
-  job: ->
-    if @people
-      _.map @people.assignmentSlots.get(), (job) =>
-        name: job, value: @people.getAssignment(job), handle: @people
-    else []
-
-Template.people.events
-  'click .plus': () -> @handle.setAssignment(@name, 1)
-  'click .minus': () -> @handle.setAssignment(@name, -1)
-
-
-@getTemplate = (elm) -> Blaze.getView($(elm)[0]).templateInstance() 
-

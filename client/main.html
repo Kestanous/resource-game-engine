@@ -1,57 +1,157 @@
 <head>
-  <title>god-game</title>
+  <title>What to name :?</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
-  {{> game}}
+  <div class="container-fluid">
+    {{> game }}
+  </div>
 </body>
 
 <template name="game">
-  <div id='game'>
-    {{#with game}}
-      {{> ProgressButton id='tap' name='Tap for food' disabled="{{resources.food.atLimit}}"}}
-      <button disabled="{{cannotRefineFoodToWood}}" class="refineFood">Refine Food</button>
-      {{> resourceList resources=getResources }}
-      {{> buildings buildings=getBuildings }}
-      {{> people people=game.buckets.people.people }}
-    {{/with}}
+  <div id='game' class="row">
+    {{#if game.ready.get}}
+      {{#with game}}
+        <div class="col-md-3">
+          {{> resContainer }}
+        </div>
+        <div class="col-md-6">
+          {{> contentContainer }}
+        </div>
+        <div class="col-md-3">
+          {{> infoContainer }}
+        </div>
+      {{/with}}
+    {{/if}}
   </div>
 </template>
 
-<template name='buildings'>
-  {{#each buildings}}
-    <button class="buy" disabled='{{cannotBuy}}'>
-      {{name}} ({{getValue}})
-    </button>
-  {{/each}}
+<template name='resContainer'>
+  {{> resourceTable }}
 </template>
 
-
-<template name='resourceList'>
-  <table class="table resTable">
-    <tr class="resourceRow">
-      <td>{{../buckets.people.people.name}}:</td>
-      <td class="resLimitWarn">{{formatNumber ../buckets.people.people.getValue}}</td>
-    </tr>
-    {{#each resources}}
-      {{> resource }}
+<template name='resourceTable'>
+  <table class="table table-sm">
+    <thead class="thead-default">
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Max</th>
+        <th>Tick</th>
+      </tr>
+    </thead>
+    {{#each getBucket 'resources' }}
+      {{> tableResourceRow }}
     {{/each}}
   </table>
 </template>
 
-<template name='resource'>
+<template name='tableResourceRow'>
+  <tr class="resourceRow">
+    <td>{{name}}:</td>
+    <td>{{formatNumber getValue}}</td>
+    <td>
+      {{#if formatNumber getMaxValue}}
+        /{{ formatNumber getMaxValue}}
+      {{/if}}
+    </td>
+
+    <td>
+      {{#if getTickValue}}
+        {{formatTick getTickValue}}
+      {{/if}}
+    </td>
+  </tr>
+</template>
+
+<template name='contentContainer'>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Actions</h3>
+    </div>
+    <div class="card-block">
+      <div class="row">
+        {{#each getBucket 'actions' }}
+        <div class="col-md-6">
+          {{> action }}
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  {{#if getBucket 'technology'}}
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Technology</h3>
+      </div>
+      <div class="card-block">
+        <div class="row">
+          {{#each getBucket 'technology' }}
+          <div class="col-md-6">
+            {{> technology }}
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<template name='action'>
+  <div class="hint p-b-1">
+    <button class="btn btn-primary btn-lg btn-block" disabled='{{disabled}}'>
+      {{#if time.get}}
+        <progress class="progress progress-striped" value="{{time.get}}" max="{{waitTime}}"></progress>
+      {{else}}
+        <div class="text-uppercase">{{name}} </div>
+      {{/if}}
+    </button>
+  </div>
+</template>
+
+<template name='technology'>
+  <div class="hint p-b-1">
+    <button class="btn btn-{{color}} btn-lg btn-block" disabled='{{disabled}}'>
+      {{name}} 
+    </button>
+  </div>
+</template>
+
+<template name='infoContainer'>
+  {{> hoverHint }}
+  {{> log }}
+</template>
+
+<template name='log'>
+  {{#if log}}
+    <div class="card card-block">
+      <h4 class="card-title">Activity Log</h4>
+      {{#each log}}
+        <span class="text-{{color}}">{{message}}</span><br>
+      {{/each}}
+    </div>
+  {{/if}}
+</template>
+
+<template name='hoverHint'>
+  {{#if hint}}
+    <div class="card text-xs-center">
+      <h3 class="card-header">{{key}}</h3>
+      <div class="card-block">
+        {{#each hint}}
+          <h5 class="card-title">{{name}}</h5>
+          <p class="card-text">{{value}}</p>
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<!-- <template name='resource'>
   <tr class="resourceRow">
     <td>{{name}}:</td>
     <td class="resLimitWarn">{{formatNumber getValue}}</td>
       <td class="maxRes">/{{formatLimit getMaxValue}}</td>
       <td>({{formatTick getTick}})</td>
   </tr>
-</template>
-
-<template name='people'>
-  available people {{people.assignmentAvailable.get}}
-  {{#each job}}
-  {{name}} ({{value}}) <button class="plus">+</button><button class="minus">-</button>
-  {{/each}}
-</template>
+</template> -->

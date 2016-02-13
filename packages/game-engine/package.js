@@ -6,6 +6,7 @@ Package.describe({
 
 Package.onUse(function (api) {
 	api.use([
+    "ecmascript",
     "coffeescript",
     "reactive-var",
     "reactive-dict",
@@ -13,23 +14,23 @@ Package.onUse(function (api) {
   ], ["client", "server"]);
 
 
-  var files = ['module.coffee'], 
+  var files = ['mixins.js'], 
   _files = [
-    'assignment',
+    // 'assignment',
     'cost',
-    'modifier',
-    'tick',
+    'buckets',
+    // 'tick',
     'value',
-    'unlock'
+    'modifier'
   ]
 
   for (var i = _files.length - 1; i >= 0; i--) {
-    files.push('modules/' + _files[i] + '.coffee')
+    files.push('modules/' + _files[i] + '.js')
   };
   
-  api.addFiles(files, ['client', 'server']);
+  api.addFiles(files);
 
-  api.export(['Module', 'Modules', 'Unlock']);
+  api.export(['Mixins']);
 });
 
 Package.onTest(function (api) {
