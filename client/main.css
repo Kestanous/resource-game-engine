@@ -14,3 +14,8 @@ body {
 .btn .progress {
   margin: 0.313rem 0;
 }
+
+.ownedTech {
+  max-height: 441px;
+  overflow-y: auto;
+}

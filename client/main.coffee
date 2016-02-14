@@ -33,17 +33,15 @@ Template.action.helpers
 
 Template.action.events
   'click button': -> @buy()
-
-Template.technology.helpers
-  disabled: () -> 
-    if @disabled() then true else not @canBuy()
-  color: () ->
-    if @disabled() then 'success' else 'primary'
-
+Template.boughtTech.helpers
+  tech: -> _.values(GAME.buckets('technology')).filter (t) -> t.owned()
 Template.technology.events
   'click button': -> @buy()
 
-Template.registerHelper 'getBucket', (bucket) -> 
+Template.contentContainer.helpers
+  tech: -> _.values(GAME.buckets('technology')).filter (t) -> not t.owned()
+
+Template.registerHelper 'getBucket', (bucket, sort) -> 
   obj = GAME.buckets(bucket)
   _.values(obj) if obj
 

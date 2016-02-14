@@ -28,6 +28,22 @@
 
 <template name='resContainer'>
   {{> resourceTable }}
+  {{> boughtTech }}
+</template>
+
+<template name='boughtTech'>
+  {{#with tech}}
+    <div class="card">
+      <div class="card-header">
+      <h4 class="card-title text-xs-center">Owned Technology</h4>
+      </div>
+      <ul class="list-group list-group-flush ownedTech">
+        {{#each this }}
+            <li class="list-group-item hint">{{name}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/with}}
 </template>
 
 <template name='resourceTable'>
@@ -37,13 +53,13 @@
         <th>Name</th>
         <th>Value</th>
         <th>Max</th>
-        <th>Tick</th>
+        <th>Change/s</th>
       </tr>
     </thead>
     {{#each getBucket 'resources' }}
-      {{#if getValue}}
+      {{#unless hide}}
         {{> tableResourceRow }}
-      {{/if}}
+      {{/unless}}
     {{/each}}
   </table>
 </template>
@@ -72,22 +88,22 @@
       </div>
     </div>
   </div>
-  {{#if getBucket 'technology'}}
+  {{#with tech}}
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Technology</h3>
       </div>
       <div class="card-block">
         <div class="row">
-          {{#each getBucket 'technology' }}
-          <div class="col-md-6">
-            {{> technology }}
-          </div>
+          {{#each this }}
+            <div class="col-md-6">
+              {{> technology }}
+            </div>
           {{/each}}
         </div>
       </div>
     </div>
-  {{/if}}
+  {{/with}}
 </template>
 
 <template name='action'>
@@ -104,7 +120,7 @@
 
 <template name='technology'>
   <div class="hint p-b-1">
-    <button class="btn btn-{{color}} btn-lg btn-block" disabled='{{disabled}}'>
+    <button class="btn btn-primary btn-lg btn-block" disabled='{{cannotBuy}}'>
       {{name}} 
     </button>
   </div>
