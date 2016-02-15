@@ -27,7 +27,14 @@ const buckets = FunctionalMixin({
     }
   },
   emptyBucket(bucket) { 
-    for (let tracker in this.bucketTrackers(bucket)) {this.bucketTrackers(bucket)[tracker].stop()}
+    for (let tracker in this.bucketTrackers(bucket)) {
+      this.bucketTrackers(bucket)[tracker].stop()
+    }
+    for (let item in this.buckets(bucket)) {
+      if (this.buckets(bucket, item).stopTracking) {
+        this.buckets(bucket, item).stopTracking()
+      }
+    }
     delete this._buckets[bucket]; 
     delete this._bucketTrackers[bucket]; 
   },
