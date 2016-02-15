@@ -1,15 +1,16 @@
 @GAME = new Game()
+GAME.onGameOver = () => FlowRouter.go('/gameOver')
+GAME.onAgeEnd = () => FlowRouter.go('/win')
 
 Template.log.helpers
   log: -> log.find({}, {limit: 15, sort: {time: -1}}).fetch()
 
-Template.game.onRendered => 
-  GAME.loadAge('scavenger')
-  @GAME.start()
-Template.game.onDestroyed => @GAME.stop()  
+Template.layout.onRendered => GAME.loadAge('scavenger')
+Template.game.onRendered => GAME.play()
+Template.game.onDestroyed => GAME.pause()  
 
 Template.game.helpers
-  game: => @GAME
+  game: => GAME
 
 Template.game.events
   'mouseenter .hint': -> Session.set "hoverHint", {bucket: @bucket, key: @key}

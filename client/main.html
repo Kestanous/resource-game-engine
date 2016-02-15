@@ -2,12 +2,6 @@
   <title>What to name :?</title>
 </head>
 
-<body>
-  <div class="container-fluid">
-    {{> game }}
-  </div>
-</body>
-
 <template name="game">
   <div id='game' class="row">
     {{#if game.ready.get}}
@@ -24,6 +18,21 @@
       {{/with}}
     {{/if}}
   </div>
+</template>
+
+
+<template name='newGame'>
+  <a href="/game" class="btn btn-secondary">Start Game</a>
+</template>
+
+<template name='gameOver'>
+  <h1>You died!</h1>
+  <a href="/game" class="btn btn-secondary">Restart Game?</a>
+</template>
+
+<template name='win'>
+  <h1>You win!</h1>
+  <a href="/game" class="btn btn-secondary">Replay?</a>
 </template>
 
 <template name='resContainer'>
