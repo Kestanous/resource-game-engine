@@ -1,0 +1,1 @@
+Template.log.helpers log: -> log.find({}, {limit: 15, sort: {time: -1}}).fetch()

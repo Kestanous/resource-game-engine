@@ -1,0 +1,17 @@
+<template name="scavenger">
+  <div id='game' class="row">
+    <div class="col-md-3">
+      {{> resourceTable data=resources }}
+      {{> scrollList list=ownedTech }}
+    </div>
+    <div class="col-md-6">
+      {{> bucketCard card=actions}}
+      {{> bucketCard card=technology}}
+    </div>
+    <div class="col-md-3">
+      {{> hoverHint }}
+      {{> log }}
+    </div>
+  </div>
+</template>
+

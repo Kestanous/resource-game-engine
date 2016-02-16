@@ -1,0 +1,11 @@
+<template name='action'>
+  <div class="hint p-b-1">
+    <button class="btn btn-primary btn-lg btn-block" disabled='{{disabled}}'>
+      {{#if time.get}}
+        <progress class="progress progress-striped" value="{{time.get}}" max="{{waitTime}}"></progress>
+      {{else}}
+        <div class="text-uppercase">{{name}} </div>
+      {{/if}}
+    </button>
+  </div>
+</template>

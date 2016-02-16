@@ -1,5 +1,33 @@
+<head>
+  <title>What to name :?</title>
+</head>
+
 <template name='layout'>
   <div class="container-fluid">
     {{> Template.dynamic template=main}}
   </div>
+</template>
+
+<template name='ageLayout'>
+  {{#if game.ready.get}}
+    {{#with game}}
+      <div class="container-fluid">
+        {{> Template.dynamic template=currentAge }}
+      </div>
+    {{/with}}
+  {{/if}}
+</template>
+
+<template name='newGame'>
+  <a href="/game" class="btn btn-secondary">Start Game</a>
+</template>
+
+<template name='gameOver'>
+  <h1>You died!</h1>
+  <a href="/game" class="btn btn-secondary">Restart Game?</a>
+</template>
+
+<template name='win'>
+  <h1>You win!</h1>
+  <a href="/game" class="btn btn-secondary">Replay?</a>
 </template>

@@ -1,0 +1,13 @@
+<template name='log'>
+  {{#if log}}
+    <div class="card text-xs-center">
+      <h4 class="card-header">Activity Log</h4>
+      <div class="card-block">
+        {{#each log}}
+          <span class="text-{{color}}">{{message}}</span><br>
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
+</template>
+

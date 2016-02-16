@@ -1,0 +1,18 @@
+<template name='bucketCard'>
+  {{#if card.items}}
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">{{card.name}}</h3>
+      </div>
+      <div class="card-block">
+        <div class="row">
+          {{#each item in card.items }}
+            <div class="col-md-6">
+              {{> Template.dynamic template=card.template data=item}}
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>  
+  {{/if}}
+</template>

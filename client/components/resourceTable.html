@@ -1,0 +1,26 @@
+<template name='resourceTable'>
+  <table class="table table-sm">
+    <thead class="thead-default">
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Max</th>
+        <th>Change/s</th>
+      </tr>
+    </thead>
+    {{#each items }}
+      {{#unless hide}}
+        {{> tableResourceRow }}
+      {{/unless}}
+    {{/each}}
+  </table>
+</template>
+
+<template name='tableResourceRow'>
+  <tr class="resourceRow hint">
+    <td>{{name}}:</td>
+    <td>{{> shortNumber getValue}}</td>
+    <td>{{> shortNumber getMaxValue}}</td>
+    <td>{{> tickNumber getTickValue}}</td>
+  </tr>
+</template>

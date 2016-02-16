@@ -33,3 +33,5 @@ private:game-engine
 
 kadira:flow-router
 kadira:blaze-layout
+
+numeral:numeral
