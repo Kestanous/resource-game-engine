@@ -20,20 +20,20 @@ Template.hoverHint.helpers
   hint: ->
     hoverHint = Session.get('hoverHint')
     return unless hoverHint?.bucket && hoverHint.key
-    bucket = GAME.buckets(hoverHint.bucket, hoverHint.key)
+    bucket = GAME.unlockedBuckets(hoverHint.bucket, hoverHint.key)
     return unless bucket
     bucket.getHint()
 Template.action.helpers toFixed: (value) -> return value.toFixed(0)
 Template.action.events
   'click button': -> @buy()
 Template.boughtTech.helpers
-  tech: -> _.values(GAME.buckets('technology')).filter (t) -> t.owned()
+  tech: -> _.values(GAME.unlockedBuckets('technology')).filter (t) -> t.owned()
 Template.technology.events
   'click button': -> @buy()
 Template.contentContainer.helpers
-  tech: -> _.values(GAME.buckets('technology')).filter (t) -> not t.owned()
+  tech: -> _.values(GAME.unlockedBuckets('technology')).filter (t) -> not t.owned()
 Template.registerHelper 'getBucket', (bucket, sort) -> 
-  obj = GAME.buckets(bucket)
+  obj = GAME.unlockedBuckets(bucket)
   _.values(obj) if obj
 Template.registerHelper 'formatNumber', (value) ->
   return if not isFinite(value)

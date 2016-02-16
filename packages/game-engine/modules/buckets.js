@@ -7,11 +7,12 @@ const buckets = FunctionalMixin({
     if (prerequisites && !_.isFunction(prerequisites)) {
       throw new Meteor.Error('Bucket addItem', 'Prerequisites must be a function')
     };
+    this.buckets(bucket)[key] = new clazz(Object.assign({ key, bucket }, description), this);
     Tracker.afterFlush(() => {
       this.bucketTrackers(bucket)[key] = Tracker.autorun(c => {
         if (!prerequisites || prerequisites.apply(this) ){
           this.bucketDeps(bucket).changed()
-          this.buckets(bucket)[key] = new clazz(Object.assign({ key, bucket }, description), this);
+          this.unlockedBuckets(bucket)[key] = this.buckets(bucket)[key];
           c.stop() 
         }
       });
@@ -31,8 +32,8 @@ const buckets = FunctionalMixin({
       this.bucketTrackers(bucket)[tracker].stop()
     }
     for (let item in this.buckets(bucket)) {
-      if (this.buckets(bucket, item).stopTracking) {
-        this.buckets(bucket, item).stopTracking()
+      if (this.buckets(bucket, item).stopTrackingValue) {
+        this.buckets(bucket, item).stopTrackingValue()
       }
     }
     delete this._buckets[bucket]; 
@@ -41,8 +42,15 @@ const buckets = FunctionalMixin({
   buckets (bucket, key) { 
     _buckets = this._buckets || (this._buckets = {}); 
     if (!bucket && !key) { return _buckets; }
-    this.bucketDeps(bucket).depend()
     bucket = _buckets[bucket] || (_buckets[bucket] = {});
+    if (!key) { return bucket }
+    return bucket[key];
+  },
+  unlockedBuckets (bucket, key) {
+    _unlockedBuckets = this._unlockedBuckets || (this._unlockedBuckets = {}); 
+    if (!bucket && !key) { return _unlockedBuckets; }
+    this.bucketDeps(bucket).depend()
+    bucket = _unlockedBuckets[bucket] || (_unlockedBuckets[bucket] = {});
     if (!key) { return bucket }
     return bucket[key];
   },

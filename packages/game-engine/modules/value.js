@@ -43,7 +43,7 @@ const value = FunctionalMixin({
     return this.setValue(this.getMinValue());
   },
   atLimit() { return this.getMaxValue() === this.getValue() },
-  stopTracking() {
+  stopTrackingValue() {
     if (this._minValueTracker) this._minValueTracker.stop()
     if (this._maxValueTracker) this._maxValueTracker.stop()
   }
