@@ -3,7 +3,7 @@ GAME.onGameOver = () => FlowRouter.go('/gameOver')
 GAME.onAgeEnd = () => FlowRouter.go('/win')
 Template.log.helpers log: -> log.find({}, {limit: 15, sort: {time: -1}}).fetch()
 Template.game.onRendered => 
-  GAME.loadAge 'scavenger', -> GAME.play()
+  GAME.loadAge 'tribal', -> GAME.play()
 Template.game.onDestroyed => 
   GAME.pause()
   GAME.removeAge()
