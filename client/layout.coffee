@@ -4,7 +4,9 @@ Session.set('interval', 0.2)
 GAME.onGameOver = () => 
   FlowRouter.go('/gameOver')
   GAME.stop()
-GAME.onAgeEnd = () => FlowRouter.go('/win')
+GAME.onAgeEnd = () => 
+  FlowRouter.go('/win')
+  GAME.stop()
 
 Template.ageLayout.onCreated => 
   GAME.start()

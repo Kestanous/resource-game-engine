@@ -1,7 +1,7 @@
 <template name='hoverHint'>
-  {{#if hint}}
+  {{#with hint}}
     <div class="card text-xs-center">
-      <h3 class="card-header text-uppercase">{{key}}</h3>
+      <h3 class="card-header text-uppercase">{{name}}</h3>
       <div class="card-block">
         <p class="card-text">{{hint.description}}</p>
         {{#if hint.cost}}
@@ -10,5 +10,5 @@
         {{/if}}
       </div>
     </div>
-  {{/if}}
+  {{/with}}
 </template>

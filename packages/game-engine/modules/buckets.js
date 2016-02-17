@@ -46,13 +46,14 @@ const buckets = FunctionalMixin({
     if (!key) { return bucket }
     return bucket[key];
   },
-  unlockedBuckets (bucket, key) {
+  unlockedBuckets (bucket, key, sub) {
     _unlockedBuckets = this._unlockedBuckets || (this._unlockedBuckets = {}); 
     if (!bucket && !key) { return _unlockedBuckets; }
-    this.bucketDeps(bucket).depend()
+    this.bucketDeps(bucket).depend();
     bucket = _unlockedBuckets[bucket] || (_unlockedBuckets[bucket] = {});
-    if (!key) { return bucket }
-    return bucket[key];
+    if (!key) { return bucket; }
+    if (sub) { return bucket[key].get(sub); }
+    return bucket[key]
   },
   bucketTrackers (bucket) { 
     _bucketTrackers = this._bucketTrackers || (this._bucketTrackers = {}); 

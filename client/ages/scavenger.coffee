@@ -5,11 +5,11 @@ Template.scavenger.helpers
     height: 441
     items: _.values(GAME.unlockedBuckets('technology')).filter (t) -> t.owned()
   actions: ->
-    name: 'actions'
+    name: 'Actions'
     items: _.values(GAME.unlockedBuckets('actions'))
     template: 'action'
   technology: ->
-    name: 'technology'
+    name: 'Technology'
     items: _.values(GAME.unlockedBuckets('technology')).filter (t) -> not t.owned()
     template: 'technology'
 
