@@ -1,7 +1,7 @@
 <template name='assignment'>
   <div class="btn-group p-b-1 hint">
     {{#unless default}}
-      <button type="button" class="btn btn-secondary removeOne" data-toggle="dropdown" disabled="{{not canRemove}}"> - </button>
+      <button type="button" class="btn btn-secondary removeOne" disabled="{{not canRemove}}"> - </button>
     {{/unless}}
     <div class="btn-group">
       <a class="btn btn-secondary {{disable}}" data-toggle="dropdown">{{name}} {{> shortNumber getValue}}</a>
@@ -19,18 +19,18 @@
           {{#if canAdd}}
             <div class="dropdown-divider"></div>
           {{/if}}
-            <a class="dropdown-item remove" href="" data-value=10>- 10</a>
-            {{#if canRemove 10}}
-              <a class="dropdown-item remove" href="" data-value=25>- 25</a>
-              {{#if canRemove 25}}
-                <a class="dropdown-item remove" href="" data-value=50>- 50</a>
-              {{/if}}
+          <a class="dropdown-item remove" href="" data-value=10>- 10</a>
+          {{#if canRemove 10}}
+            <a class="dropdown-item remove" href="" data-value=25>- 25</a>
+            {{#if canRemove 25}}
+              <a class="dropdown-item remove" href="" data-value=50>- 50</a>
             {{/if}}
+          {{/if}}
         {{/if}}
         </div>
       </div>
     {{#unless default}}
-      <button type="button" class="btn btn-secondary addOne" data-toggle="dropdown" disabled="{{not canAdd}}"> + </button>
+      <button type="button" class="btn btn-secondary addOne" disabled="{{not canAdd}}"> + </button>
     {{/unless}}
     {{#if default}}
       <button type="button" class="btn btn-secondary reset" disabled="{{canAdd}}"> Reset </button>

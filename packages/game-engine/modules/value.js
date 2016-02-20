@@ -27,11 +27,11 @@ const value = FunctionalMixin({
     let out = 0;
     Tracker.nonreactive( () => {
       if (temp < this.getMinValue()) {
-        this.underMinValue(temp)
         out = temp - this.getMinValue()
+        this.underMinValue(out)
       }else if (temp > this.getMaxValue()) {
-        this.overMaxValue(temp)
         out = temp - this.getMaxValue()
+        this.overMaxValue(out)
       } else this.setValue(temp)
     });
     return out;

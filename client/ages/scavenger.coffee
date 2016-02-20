@@ -1,9 +1,5 @@
 Template.scavenger.helpers
   resources: -> _.values(GAME.unlockedBuckets('resources'))
-  ownedTech: -> 
-    name: 'Technology Owned'
-    height: 441
-    items: _.values(GAME.unlockedBuckets('technology')).filter (t) -> t.owned()
   actions: ->
     name: 'Actions'
     items: _.values(GAME.unlockedBuckets('actions'))

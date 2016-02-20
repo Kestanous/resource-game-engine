@@ -7,4 +7,4 @@ Template.tabs.helpers
   col: -> Template.instance().current.get().col || 6
 
 Template.tabs.events
-  'click .nav-item': (e, tpl) -> tpl.current.set @
+  'click .tab': (e, tpl) -> tpl.current.set @

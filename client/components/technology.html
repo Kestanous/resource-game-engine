@@ -1,3 +1,13 @@
+<template name='technologies'>
+  <div class="row p-t-2">
+    {{#each this }}
+      <div class="col-md-4 text-xs-center">
+        {{> technology}}
+      </div>
+    {{/each}}
+  </div>
+</template>
+
 <template name='technology'>
   <div class="hint p-b-1">
     <button class="btn btn-primary btn-lg btn-block" disabled='{{cannotBuy}}'>

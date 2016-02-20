@@ -1,3 +1,12 @@
+<template name='actions'>
+  <div class="row p-t-2">
+    {{#each this }}
+      <div class="col-md-4 text-xs-center">
+        {{> action}}
+      </div>
+    {{/each}}
+  </div>
+</template>
 <template name='action'>
   <div class="hint p-b-1">
     <button class="btn btn-primary btn-lg btn-block" disabled='{{disabled}}'>

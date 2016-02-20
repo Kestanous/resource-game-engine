@@ -8,4 +8,4 @@ Template.tickNumber.helpers
   number: ->
     return if not isFinite(@)
     return if parseFloat(@) is 0
-    numeral(@).format('+0.00a')
+    numeral(@ / Session.get('interval')).format('+0.00a')

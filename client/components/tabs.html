@@ -1,16 +1,10 @@
 <template name='tabs'> 
   <ul class="nav nav-tabs">
     {{#each tabs }}
-      <li class="nav-item">
-        <a class="nav-link {{active}}" href=""> {{name}}</a>
+      <li class="nav-item tab">
+        <a class="nav-link {{active}}" href=""> {{name}} </a>
       </li>
     {{/each}}
   </ul>
-  <div class="row p-t-2">
-    {{#each item in current.items }}
-      <div class="col-md-{{col}} text-xs-center">
-        {{> Template.dynamic template=current.template data=item}}
-      </div>
-    {{/each}}
-  </div>
+  {{> Template.dynamic template=current.template data=current.items}}
 </template>

@@ -28,7 +28,7 @@ coffeescript
 reactive-var
 reactive-dict
 coursierprive:tether
-twbs:bootstrap@4.0.0-alpha.2
+twbs:bootstrap@4.0.0-alpha
 private:game-engine
 
 kadira:flow-router

@@ -5,8 +5,7 @@ Template.hoverHint.helpers
     keys = hoverHint.key.split('.')
     bucket = GAME.unlockedBuckets(hoverHint.bucket, keys[0], keys[1])  
     return unless bucket
-    return {
-      hint: bucket.getHint(),
-      bucket: bucket.bucket,
-      name: bucket.name()
-    }
+    hint = bucket.getHint()
+    hint.bucket = bucket.bucket
+    hint.name = bucket.name()
+    return hint

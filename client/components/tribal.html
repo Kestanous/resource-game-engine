@@ -1,0 +1,69 @@
+<template name='tribalTab'>
+  <ul class="nav nav-pills p-t-1 row">
+    {{#each this}}
+    <li class="nav-item tribalTab col-md-3">
+      <a class="nav-link {{active}}" href=""> {{name}} </a>
+    </li>
+    {{/each}}
+  </ul>
+  <hr class="divider">
+  {{#with currentItem}}
+    {{> tribalTabItem }}
+  {{/with}}
+</template>
+
+<template name='tribalTabItem'>
+  {{#if getValue}}
+    <progress class="progress progress-{{status}}" value="{{getValue}}" max="100"></progress>
+  {{/if}}
+  {{#if canTalk}}
+    <div class="row">
+      <div class="col-md-4">
+        <button class="btn btn-primary btn-lg btn-block talk">Talk</button>
+      </div>
+    </div>
+  {{else}}
+    <div class="row">
+      {{#if canBribe}}
+        <div class="col-md-4">
+          <button class="btn btn-primary btn-lg btn-block bribe" disabled='{{bribeNotReady}}'>Bribe</button>
+        </div>
+      {{/if}}
+      {{#if canTrade}}
+      <div class="col-md-4">
+        <button class="btn btn-primary btn-lg btn-block trade" disabled='{{tradeNotReady}}'>Trade</button>
+      </div>
+      {{/if}}
+      {{#if canAttack}}
+        <div class="col-md-4">
+          <button class="btn btn-primary btn-lg btn-block attack" disabled='{{attackNotReady}}'>
+          {{#unless attackNotReady}}
+            Attack
+          {{else}}
+            <progress class="progress progress-striped" value="{{attackCount}}" max="100"></progress>
+          {{/unless}}
+          </button>
+        </div>
+      {{/if}}
+      {{#if canMerge}}
+        <div class="col-md-4">
+          <button class="btn btn-primary btn-lg btn-block merge" disabled='{{disabled}}'>Merge</button>    
+        </div>
+      {{/if}}
+    </div>
+    <div class="row">
+      <dl class="p-t-1">
+        <dt class="col-sm-3">Disposition</dt>
+        <dd class="col-sm-9">{{disposition}}</dd>
+        <dt class="col-sm-3">Opinion</dt>
+        <dd class="col-sm-9">{{dispositionValue}}</dd>
+        {{#if canTrade}}
+          <dt class="col-sm-3">Needs</dt>
+          <dd class="col-sm-9">{{needs}}</dd>
+          <dt class="col-sm-3">Offers</dt>
+          <dd class="col-sm-9">{{offers}}</dd>
+        {{/if}}
+      </dl>
+    </div>
+  {{/if}}
+</template>
