@@ -1,16 +1,16 @@
 //effectively a dictionary
 const buckets = FunctionalMixin({
-  addItem (key, bucket, clazz, description = {}, prerequisites) {
+  addItem (key, bucket, clazz, description = {}, prerequisites, loadData, advance) {
     if (!_.isString(key)) {throw new Meteor.Error('Bucket addItem', 'No key given')};
     if (!_.isString(bucket)) {throw new Meteor.Error('Bucket addItem', 'No bucket given')};
     if (!_.isFunction(clazz)) {throw new Meteor.Error('Bucket addItem', 'No class given')};
     if (prerequisites && !_.isFunction(prerequisites)) {
       throw new Meteor.Error('Bucket addItem', 'Prerequisites must be a function')
     };
-    this.buckets(bucket)[key] = new clazz(Object.assign({ key, bucket }, description), this);
+    this.buckets(bucket)[key] = new clazz(Object.assign({ key, bucket }, description), this, loadData, advance);
     Tracker.afterFlush(() => {
       this.bucketTrackers(bucket)[key] = Tracker.autorun(c => {
-        if (!prerequisites || prerequisites.apply(this) ){
+        if (!prerequisites || prerequisites.call(this, this.buckets(bucket)[key]) ){
           this.bucketDeps(bucket).changed()
           this.unlockedBuckets(bucket)[key] = this.buckets(bucket)[key];
           c.stop() 

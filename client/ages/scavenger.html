@@ -7,9 +7,12 @@
       {{> bucketCard card=actions}}
       {{> bucketCard card=technology}}
     </div>
-    <div class="col-md-3">
+    <div id='info-column' class="col-md-3">
+      {{> menu }}
       {{> hoverHint }}
-      {{> log }}
+      {{#scrollList title='Activity Log'}}
+        {{> log }}
+      {{/scrollList}}
     </div>
   </div>
 </template>

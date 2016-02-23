@@ -14,6 +14,9 @@
       <div class="container-fluid">
         {{> Template.dynamic template=currentAge }}
       </div>
+      {{#unless running}}
+        <div class="paused-overlay"></div>
+      {{/unless}}
     {{/with}}
   {{/if}}
 </template>
@@ -28,6 +31,5 @@
 </template>
 
 <template name='win'>
-  <h1>You win!</h1>
-  <a href="/game" class="btn btn-secondary">Replay?</a>
+  <h1>To be continued...</h1>
 </template>

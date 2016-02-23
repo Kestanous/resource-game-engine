@@ -1,13 +1,36 @@
-body {
+html, body, #__blaze-root {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  padding-top: 10px;
-  height: 100vh;
+  max-height: 100vh;
+  overflow-y: none;
 }
+
+.container-fluid, #game {
+  max-height: inherit;
+}
+
+#game {
+  padding-top: 10px;
+}
+
+#info-column {
+  height: 100%;
+  z-index: 1001;
+}
+
+.scrollList {
+  width: 100%;
+}
+
+.scroll {
+  height: inherit;
+  overflow: auto !important;
+}
+
 
 .btn:focus {
   outline: none !important; 
@@ -17,6 +40,20 @@ body {
   margin: 0.313rem 0;
 }
 
-#info-row {
-  min-width: 270px;
+.menu {
+  padding: 0.5rem;
+}
+.menu .mdi {
+  font-size: 1.4rem; 
+}
+
+.paused-overlay {
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }

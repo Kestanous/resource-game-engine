@@ -1,14 +1,10 @@
 <template name='scrollList'>
-  {{#if list.items}}
-    <div class="card">
+    <div class="card scrollList">
       <div class="card-header">
-      <h4 class="card-title text-xs-center">{{list.name}}</h4>
+        <h4 class="card-title text-xs-center">{{title}}</h4>
       </div>
-      <ul class="list-group list-group-flush" style="max-height: {{list.height}}px; overflow-y: auto;">
-        {{#each list.items }}
-            <li class="list-group-item hint">{{name}}</li>
-        {{/each}}
-      </ul>
+      <div class="scroll">
+        {{> Template.contentBlock }}
+      </div>
     </div>
-  {{/if}}
 </template>

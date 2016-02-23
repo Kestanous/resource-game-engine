@@ -1,15 +1,25 @@
 <template name='tribalTab'>
-  <ul class="nav nav-pills p-t-1 row">
-    {{#each this}}
-    <li class="nav-item tribalTab col-md-3">
-      <a class="nav-link {{active}}" href=""> {{name}} </a>
-    </li>
-    {{/each}}
-  </ul>
-  <hr class="divider">
-  {{#with currentItem}}
-    {{> tribalTabItem }}
-  {{/with}}
+  <div class="row p-t-1 ">
+    <div class="col-md-3">
+      {{#with explore}}
+        {{> action }}
+      {{/with}}
+      {{#if items}}
+        <ul class="nav nav-pills nav-stacked card">
+          {{#each items}}
+          <li class="nav-item tribalTab">
+            <a class="nav-link {{active}}" href=""> {{name}} </a>
+          </li>
+          {{/each}}
+        </ul>
+      {{/if}}
+    </div>
+    <div class="col-md-9">
+      {{#with currentItem}}
+        {{> tribalTabItem }}
+      {{/with}}
+    </div>
+  </div>
 </template>
 
 <template name='tribalTabItem'>
@@ -57,7 +67,7 @@
         <dd class="col-sm-9">{{disposition}}</dd>
         <dt class="col-sm-3">Opinion</dt>
         <dd class="col-sm-9">{{dispositionValue}}</dd>
-        {{#if canTrade}}
+        {{#if canSeeTrade}}
           <dt class="col-sm-3">Needs</dt>
           <dd class="col-sm-9">{{needs}}</dd>
           <dt class="col-sm-3">Offers</dt>

@@ -1,15 +1,18 @@
 <template name="tribal">
   <div id='game' class="row">
-    <div id='info-row' class="col-md-3">
+    <div id='data-column' class="col-md-3">
       {{> resourceTable data=resources }}
       {{> bucketCard card=assignment }}
     </div>
     <div class="col-md-6">
       {{> tabs tabs=tabsData}}
     </div>
-    <div class="col-md-3">
+    <div id='info-column' class="col-md-3">
+      {{> menu }}
       {{> hoverHint }}
-      {{> log }}
+      {{#scrollList title='Activity Log'}}
+        {{> log }}
+      {{/scrollList}}
     </div>
   </div>
 </template>

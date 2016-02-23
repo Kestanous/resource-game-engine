@@ -23,6 +23,7 @@ ecmascript
 autopublish
 insecure
 
+amplify
 
 coffeescript
 reactive-var
@@ -36,3 +37,4 @@ kadira:blaze-layout
 
 numeral:numeral
 meteortoys:allthings
+dapearce:material-icons

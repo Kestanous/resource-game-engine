@@ -8,21 +8,15 @@ Template.tribal.helpers
     items: _.values(GAME.unlockedBuckets('technology')).filter (t) -> t.owned()
   tabsData: ->
     tabs = []
-    tabs.push
-      name: 'Actions'
-      items: -> _.values(GAME.unlockedBuckets('actions'))
-      template: 'actions'
+    tabs.push({
+      name: 'Tribes'
+      template: 'tribalTab'
+    })
     if _.values(GAME.unlockedBuckets('technology')).filter( (t) -> not t.owned() ).length
       tabs.push
         name: 'Technology'
         items: -> _.values(GAME.unlockedBuckets('technology')).filter (t) -> not t.owned()
         template: 'technologies'
-    if _.values(GAME.unlockedBuckets('tribes')).filter( (t) -> not t.isDestroyed() ).length
-      tabs.push({
-        name: 'Tribes'
-        items: -> _.values(GAME.unlockedBuckets('tribes')).filter (t) -> not t.isDestroyed()
-        template: 'tribalTab'
-      })
     tabs
   assignment: ->
     name: 'People'
