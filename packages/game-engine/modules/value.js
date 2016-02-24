@@ -4,7 +4,7 @@ const value = FunctionalMixin({
   setMinValue(func) {
     if (this._minValueTracker) this._minValueTracker.stop()
     Tracker.afterFlush(() => {
-      this._minValueTracker = Tracker.autorun( c => {
+      this._minValueTracker = this.autorun( c => {
         this._values().set('min', func.apply(this));
       })
     });
@@ -13,7 +13,7 @@ const value = FunctionalMixin({
   setMaxValue(func) {
     if (this._maxValueTracker) this._maxValueTracker.stop()
     Tracker.afterFlush(() => {
-      this._maxValueTracker = Tracker.autorun( c => {
+      this._maxValueTracker = this.autorun( c => {
         this._values().set('max', func.apply(this));
       })
     });
@@ -43,9 +43,5 @@ const value = FunctionalMixin({
     return this.setValue(this.getMinValue());
   },
   atLimit() { return this.getMaxValue() === this.getValue() },
-  stopTrackingValue() {
-    if (this._minValueTracker) this._minValueTracker.stop()
-    if (this._maxValueTracker) this._maxValueTracker.stop()
-  }
 });
 Mixins.value = value

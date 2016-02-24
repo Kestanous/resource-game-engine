@@ -5,7 +5,12 @@
     {{else}}
       <button class="btn btn-primary-outline mdi mdi-pause card-link"></button>
     {{/if}}
-    <button class="btn btn-primary-outline mdi mdi-content-save" data-toggle="tooltip" data-placement="bottom" title="Save Game"></button>
-    <button class="btn btn-primary-outline mdi mdi-replay" data-toggle="tooltip" data-placement="bottom" title="Reset Game"></button>
+    {{#if saving}}
+      <button class="btn btn-success-outline mdi mdi-check"></button>
+    {{else}}
+      <button class="btn btn-primary-outline mdi mdi-content-save"></button>
+    {{/if}}
+    
+    <button class="btn btn-primary-outline mdi mdi-replay"></button>
   </div>
 </template>

@@ -5,7 +5,7 @@ Template.tribal.helpers
   ownedTech: -> 
     name: 'Technology Owned'
     height: 145
-    items: _.values(GAME.unlockedBuckets('technology')).filter (t) -> t.owned()
+    items: -> _.values(GAME.unlockedBuckets('technology')).filter (t) -> t.owned()
   tabsData: ->
     tabs = []
     tabs.push({
@@ -20,6 +20,6 @@ Template.tribal.helpers
     tabs
   assignment: ->
     name: 'People'
-    items: _.values(GAME.unlockedBuckets('assignments', 'people').get()).filter (a) -> a.unlocked()
+    items: -> _.values(GAME.buckets('assignments', 'people').get()).filter (a) -> a.unlocked()
     template: 'assignment'    
     col: 12

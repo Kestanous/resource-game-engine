@@ -26,24 +26,7 @@
   {{#if getValue}}
     <progress class="progress progress-{{status}}" value="{{getValue}}" max="100"></progress>
   {{/if}}
-  {{#if canTalk}}
     <div class="row">
-      <div class="col-md-4">
-        <button class="btn btn-primary btn-lg btn-block talk">Talk</button>
-      </div>
-    </div>
-  {{else}}
-    <div class="row">
-      {{#if canBribe}}
-        <div class="col-md-4">
-          <button class="btn btn-primary btn-lg btn-block bribe" disabled='{{bribeNotReady}}'>Bribe</button>
-        </div>
-      {{/if}}
-      {{#if canTrade}}
-      <div class="col-md-4">
-        <button class="btn btn-primary btn-lg btn-block trade" disabled='{{tradeNotReady}}'>Trade</button>
-      </div>
-      {{/if}}
       {{#if canAttack}}
         <div class="col-md-4">
           <button class="btn btn-primary btn-lg btn-block attack" disabled='{{attackNotReady}}'>
@@ -54,6 +37,16 @@
           {{/unless}}
           </button>
         </div>
+      {{/if}}
+      {{#if canBribe}}
+        <div class="col-md-4">
+          <button class="btn btn-primary btn-lg btn-block bribe" disabled='{{bribeNotReady}}'>Bribe</button>
+        </div>
+      {{/if}}
+      {{#if canTrade}}
+      <div class="col-md-4">
+        <button class="btn btn-primary btn-lg btn-block trade" disabled='{{tradeNotReady}}'>Trade</button>
+      </div>
       {{/if}}
       {{#if canMerge}}
         <div class="col-md-4">
@@ -75,5 +68,4 @@
         {{/if}}
       </dl>
     </div>
-  {{/if}}
 </template>
