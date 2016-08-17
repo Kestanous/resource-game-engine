@@ -1,3 +1,4 @@
+import {FunctionalMixin} from "./mixins.js";
 const value = FunctionalMixin({
   _values() { return this._valuesDict || (this._valuesDict = new ReactiveDict) },
   getMinValue() {return this._values().get('min') || 0;},
@@ -44,4 +45,4 @@ const value = FunctionalMixin({
   },
   atLimit() { return this.getMaxValue() === this.getValue() },
 });
-Mixins.value = value
+export {value};

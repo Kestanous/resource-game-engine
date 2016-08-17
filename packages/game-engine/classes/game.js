@@ -1,6 +1,7 @@
+import {buckets} from '../mixins/buckets.js'
 class Game {
   constructor(startingAge) {
-    Mixins.buckets(this)
+    buckets(this)
     this.interval =  Session.get('interval');
     this.ready = new ReactiveVar(false);
     this.running = new ReactiveVar(false);
@@ -43,14 +44,14 @@ class Game {
     amplify.store('dagame', saveObj)
   }
   load(age) {
-    let load = amplify.store('dagame-age');
-    if (!load) {
+    let loadedAge = amplify.store('dagame-age');
+    if (!loadedAge) {
       return {};
     }
-    if (load == age) {
+    if (loadedAge == age) {
       return { load: amplify.store('dagame') };
     }
-    if (load == 'advance') {
+    if (loadedAge == 'advance') {
      return { load: amplify.store('dagame'), advance: true }; 
     }
   }
@@ -66,12 +67,12 @@ class Game {
   loadAge(age, callback) {
     this.removeAge()
     this.currentAge = age
-    let loadAge = this.load(age) || {};
+    let loadedData = this.load(age) || {};
     Game.ages[age].buckets.forEach((bucket) => {
       for (let item in bucket.items) {
         let itemData;
-        if (loadAge.load && loadAge.load[bucket.key]) itemData = loadAge.load[bucket.key][item]
-        this.addItem(item, bucket.key, bucket.class, bucket.items[item].description, bucket.items[item].prerequisites, itemData, loadAge.advance)
+        if (loadedData.load && loadedData.load[bucket.key]) itemData = loadedData.load[bucket.key][item]
+        this.addItem(item, bucket.key, bucket.class, bucket.items[item].description, bucket.items[item].prerequisites, itemData, loadedData.advance)
       } 
     });
     amplify.store('dagame-age', age)
@@ -120,7 +121,7 @@ Game.tickNumber = (value) => {
   return numeral(value / Session.get('interval')).format('+0.00a') + '/s'
 }
 Game.ages = {}
-this.Game = Game;
+
 log = new Meteor.Collection(null)
 log.count = -15
 log.message = (message, color) => {
@@ -134,3 +135,6 @@ log.clear = () => {
     log.remove(l._id)
   })
 }
+
+
+export {Game, log};

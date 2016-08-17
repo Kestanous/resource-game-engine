@@ -1,3 +1,4 @@
+import {BucketItem} from './bucketItem.js'
 class Assignment extends BucketItem {
   constructor (config, state) {
     super()
@@ -114,8 +115,6 @@ class Assignment extends BucketItem {
     }
   }
 }
-this.Assignment = Assignment
-
 
 class AssignmentItem extends BucketItem {
   constructor(config, parent) {
@@ -147,3 +146,5 @@ class AssignmentItem extends BucketItem {
     }
   }
 }
+
+export {Assignment};

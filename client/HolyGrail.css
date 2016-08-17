@@ -1,0 +1,30 @@
+#info-column {
+  height: 98vh;
+  z-index: 1001;
+  flex-direction: column;
+  display: flex;
+  overflow-y: hidden;
+}
+
+.menu {
+  box-sizing: content-box;
+  padding: 0.5rem;
+}
+.menu .mdi {
+  font-size: 1.4rem; 
+}
+
+.scrollList {
+  flex-direction: column;
+  display: flex;
+  flex-grow: 10;
+  padding-bottom: 2px;
+}
+.scrollList .card-header {
+  box-sizing: content-box;
+}
+.scrollList .scroll {
+  flex-shrink: 1;
+  flex-grow: 10;
+  overflow-y: auto;
+}

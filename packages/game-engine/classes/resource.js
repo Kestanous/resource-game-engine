@@ -1,8 +1,12 @@
+import {value as valueMix} from '../mixins/value.js'
+import {modifier} from '../mixins/modifier.js'
+import {BucketItem} from './bucketItem.js'
 class Resource extends BucketItem {
   constructor (config, state, loadData = {}, advance) {
     super()
-    Mixins.value(this)
-    Mixins.modifier(this)
+    this.tickValue = 0
+    valueMix(this)
+    modifier(this)
     this.state = state
     let value;
     value = config.value
@@ -55,7 +59,6 @@ class Resource extends BucketItem {
     });
     state._NeedsTick.push(this);
   }
-  tickValue: 0
   tick() {
     if (this.tickValue && (! this.atLimit() || this.tickValue < 0)) this.updateValue(this.tickValue)
   }
@@ -77,4 +80,4 @@ class Resource extends BucketItem {
 }
 
 
-this.Resource = Resource;
+export {Resource};

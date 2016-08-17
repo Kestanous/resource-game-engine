@@ -1,3 +1,4 @@
+import {FunctionalMixin} from "./mixins.js";
 const modifier = FunctionalMixin({
   modifiers() { return this._modifiers || (this._modifiers = new ReactiveDict) },
   setModifier(key, value) { this.modifiers().set(key, value) },
@@ -7,4 +8,4 @@ const modifier = FunctionalMixin({
   }
 });
 
-Mixins.modifier = modifier
+export {modifier};

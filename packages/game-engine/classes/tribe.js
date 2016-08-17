@@ -1,3 +1,4 @@
+import {Resource} from './resource.js'
 class Tribe extends Resource {
   constructor(config, state) {
     super(config, state)
@@ -7,17 +8,14 @@ class Tribe extends Resource {
       if (this.atLimit()) {
         let rand = Random.fraction(), strength = this._dict.get('strength');
         if (this.disposition() == 'hostile') {
-          if (rand > 0.95) {
-            this.state.buckets('resources', 'shelter').updateValue(-1)
-            log.message(`Tribe ${this.name()} attacked you! They burned down one of your shelters`, 'warning')
-          } else {
-            let needs = this._dict.get('needs')
-            if (this.state.buckets('resources', needs).getValue()) {
-              let count = Math.floor(strength * rand + 1 * strength)
-              , delta = this.state.buckets('resources', needs).updateValue( - count );
-              log.message(`Tribe ${this.name()} attacked you! Their raiders took ${Math.abs(delta || count)} ${needs}`, 'warning')
-              if (strength < 10) { this._dict.set('strength', strength + 1 ) }
-            }
+          this.state.buckets('resources', 'shelter').updateValue(-1)
+          log.message(`Tribe ${this.name()} attacked you! They burned down one of your shelters`, 'warning')
+          let needs = this._dict.get('needs')
+          if (this.state.buckets('resources', needs).getValue()) {
+            let count = Math.floor(strength * rand + 1 * strength)
+            , delta = this.state.buckets('resources', needs).updateValue( - count );
+            log.message(`Their raiders took ${Math.abs(delta || count)} ${needs}`, 'warning')
+            if (strength < 10) { this._dict.set('strength', strength + 1 ) }
           }
         } else if (this.disposition() == 'friendly') {
           let offers = this._dict.get('offers')
@@ -205,7 +203,6 @@ class Tribe extends Resource {
   }
 }
 
-this.Tribe = Tribe
 Tribe.randomName = () => {
   if (names.length) {
     return names.splice(Random.choice(Array.from(new Array(names.length - 1), (x,i) => i)), 1)[0]
@@ -228,3 +225,6 @@ let names = [
   'Rising Ember',
   'Sapphire Owl'
 ]
+
+
+export {Tribe};

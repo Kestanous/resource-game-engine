@@ -14,23 +14,8 @@ html, body, #__blaze-root {
 }
 
 #game {
-  padding-top: 10px;
+  padding: 1vh 0;
 }
-
-#info-column {
-  height: 100%;
-  z-index: 1001;
-}
-
-.scrollList {
-  width: 100%;
-}
-
-.scroll {
-  height: inherit;
-  overflow: auto !important;
-}
-
 
 .btn:focus {
   outline: none !important; 
@@ -38,13 +23,6 @@ html, body, #__blaze-root {
 
 .btn .progress {
   margin: 0.313rem 0;
-}
-
-.menu {
-  padding: 0.5rem;
-}
-.menu .mdi {
-  font-size: 1.4rem; 
 }
 
 .paused-overlay {

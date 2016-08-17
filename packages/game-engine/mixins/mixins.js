@@ -1,6 +1,6 @@
 const classMethods = Symbol("classMethods");
 
-FunctionalMixin = function (behaviour) {
+const FunctionalMixin = function (behaviour) {
   const instanceKeys = _.keys(behaviour).filter(key => key !== classMethods);
   const methods = behaviour[classMethods] || {};
   function mixin (target) {
@@ -11,5 +11,6 @@ FunctionalMixin = function (behaviour) {
   return mixin;
 }
 
-FunctionalMixin.classMethods = classMethods;
+// FunctionalMixin.classMethods = classMethods;
 Mixins = {}
+export {FunctionalMixin};

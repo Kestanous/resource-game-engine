@@ -1,3 +1,4 @@
+import {FunctionalMixin} from "./mixins.js";
 const cost = FunctionalMixin({
   getCost() { 
     if (_.isFunction(this.cost)) 
@@ -15,4 +16,4 @@ const cost = FunctionalMixin({
   cost() { return {}; }
 });
 
-Mixins.cost = cost;
+export {cost};

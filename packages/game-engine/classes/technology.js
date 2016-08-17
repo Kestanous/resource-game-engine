@@ -1,7 +1,9 @@
+import {cost} from '../mixins/cost.js'
+import {BucketItem} from './bucketItem.js'
 class Technology extends BucketItem {
   constructor(config, state, load, advance) {
     super()
-    Mixins.cost(this)
+    cost(this)
     this.state = state
     _.extend(this, config); 
     this._owned = new ReactiveVar(!advance && load);
@@ -21,4 +23,4 @@ class Technology extends BucketItem {
   }
 }
 
-this.Technology = Technology
+export {Technology};

@@ -32,7 +32,10 @@ Template.tribalTab.events
   'click .bribe': () -> @bribe()
   'click .attack': () -> @attack()
   'click .trade': () -> @trade()
-  'click .merge': () -> @merge()
+  'click .merge': (e, tpl) -> 
+    @merge()
+    tpl.current.set()
+
 
 Template.tribalTabItem.helpers 
   status: -> 

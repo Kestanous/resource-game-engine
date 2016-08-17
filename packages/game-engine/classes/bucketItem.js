@@ -26,4 +26,4 @@ class BucketItem {
     return tracker;
   }
 }
-this.BucketItem = BucketItem;
+export {BucketItem};

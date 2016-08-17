@@ -1,9 +1,10 @@
+import {FunctionalMixin} from "./mixins.js";
 //effectively a dictionary
 const buckets = FunctionalMixin({
   addItem (key, bucket, clazz, description = {}, prerequisites, loadData, advance) {
-    if (!_.isString(key)) {throw new Meteor.Error('Bucket addItem', 'No key given')};
     if (!_.isString(bucket)) {throw new Meteor.Error('Bucket addItem', 'No bucket given')};
-    if (!_.isFunction(clazz)) {throw new Meteor.Error('Bucket addItem', 'No class given')};
+    if (!_.isString(key)) {throw new Meteor.Error('Bucket addItem', `No key given for ${bucket}`)};
+    if (!_.isFunction(clazz)) {throw new Meteor.Error('Bucket addItem', `No class given for ${bucket}-${key}`)};
     if (prerequisites && !_.isFunction(prerequisites)) {
       throw new Meteor.Error('Bucket addItem', 'Prerequisites must be a function')
     };
@@ -66,4 +67,4 @@ const buckets = FunctionalMixin({
   }
 });
 
-Mixins.buckets = buckets
+export {buckets};

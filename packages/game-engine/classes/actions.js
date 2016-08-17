@@ -1,8 +1,11 @@
+import {cost} from '../mixins/cost.js';
+import {modifier} from '../mixins/modifier.js';
+import {BucketItem} from './bucketItem.js'
 class Action extends BucketItem {
   constructor(config, state) {
     super()
-    Mixins.cost(this)
-    Mixins.modifier(this)
+    cost(this)
+    modifier(this)
     this.state = state
     _.extend(this, config); 
     this.ready = new ReactiveVar(true);
@@ -46,4 +49,4 @@ class Action extends BucketItem {
   }
 }
 
-this.Action = Action
+export {Action}
